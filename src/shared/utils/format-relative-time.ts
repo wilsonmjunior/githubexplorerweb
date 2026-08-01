@@ -8,17 +8,17 @@ export function formatRelativeTime(dateString: string): string {
   }
 
   if (diffHours < 24) {
-    return `${diffHours}h ago`
+    return `${diffHours}h atrás`
   }
 
   const diffDays = Math.floor(diffHours / 24)
 
   if (diffDays === 1) {
-    return 'Yesterday'
+    return 'ontem'
   }
 
   if (diffDays < 7) {
-    return `${diffDays} days ago`
+    return `${diffDays} dias atrás`
   }
 
   return date.toLocaleDateString('pt-BR')

@@ -7,7 +7,7 @@ type FollowingTagProps = {
 export function FollowingTag({ className }: FollowingTagProps) {
   return (
     <span className={`following-tag ${className ?? ''}`.trim()}>
-      Following
+      Seguindo
     </span>
   )
 }
