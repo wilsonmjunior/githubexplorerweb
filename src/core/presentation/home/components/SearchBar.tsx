@@ -13,7 +13,7 @@ export function SearchBar({
   value,
   onChange,
   onSubmit,
-  placeholder = 'Search repositories, topics...',
+  placeholder = 'Buscar repositórios, tópicos...',
   isLoading = false,
 }: SearchBarProps) {
   const handleSubmit = (event: FormEvent) => {
@@ -56,7 +56,7 @@ export function SearchBar({
           <input
             type="search"
             className="search-bar__input search-bar__input--desktop"
-            placeholder="Search GitHub Users..."
+            placeholder="Buscar usuários no GitHub..."
             value={value}
             onChange={(event) => onChange(event.target.value)}
             aria-label="Buscar usuários no GitHub"
@@ -73,7 +73,7 @@ export function SearchBar({
                 aria-label="Buscando"
               />
             ) : (
-              'Search'
+              'Buscar'
             )}
           </button>
         </div>

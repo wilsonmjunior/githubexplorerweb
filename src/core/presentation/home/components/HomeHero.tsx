@@ -20,11 +20,11 @@ export function HomeHero({
     <section className="home-hero text-center">
       <div className="home-hero__intro">
         <h1 className="home-hero__title">
-          Connect with the world&apos;s best code
+          Conecte-se ao melhor código do mundo
         </h1>
         <p className="home-hero__subtitle d-none d-md-block">
-          Discover developers, browse repositories, and explore the cutting edge
-          of open source through GitExplorer&apos;s advanced indexing.
+          Descubra desenvolvedores, explore repositórios e mergulhe no que há de
+          mais avançado em código aberto com o GitExplorer.
         </p>
       </div>
 
@@ -37,7 +37,7 @@ export function HomeHero({
       </div>
 
       <div className="home-hero__stats d-flex d-md-none flex-wrap justify-content-center gap-2">
-        <StatBadge label="10M+ REPOS" />
+        <StatBadge label="10M+ REPOSITÓRIOS" />
         <StatBadge label="5M+ DEVS" />
       </div>
 

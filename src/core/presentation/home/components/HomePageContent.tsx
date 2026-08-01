@@ -1,13 +1,14 @@
 import Container from 'react-bootstrap/Container'
 import { useState } from 'react'
-import { HomeFooter } from '@/core/presentation/home/components/HomeFooter'
-import { HomeHeader } from '@/core/presentation/home/components/HomeHeader'
 import { HomeHero } from '@/core/presentation/home/components/HomeHero'
 import { RepositorySearchResultsSection } from '@/core/presentation/home/components/RepositorySearchResultsSection'
 import { SearchResultsSection } from '@/core/presentation/home/components/SearchResultsSection'
 import { TrendingDevelopersSection } from '@/core/presentation/home/components/TrendingDevelopersSection'
 import { useResponsiveHomeSearch } from '@/core/presentation/home/hooks/useResponsiveHomeSearch'
 import { useTrendingDevelopers } from '@/core/presentation/home/hooks/useTrendingDevelopers'
+import { AppFooter } from '@/shared/components/AppFooter'
+import { AppHeader } from '@/shared/components/AppHeader'
+import { PageLayout } from '@/shared/components/PageLayout'
 import './HomePageContent.css'
 
 export function HomePageContent() {
@@ -41,46 +42,44 @@ export function HomePageContent() {
   }
 
   return (
-    <div className="home-page d-flex flex-column min-vh-100">
-      <HomeHeader />
+    <PageLayout
+      className="home-page"
+      header={<AppHeader />}
+      footer={<AppFooter />}
+    >
+      <Container fluid="lg" className="home-page__container px-3 px-md-4">
+        <HomeHero
+          searchQuery={query}
+          onSearchChange={handleSearchChange}
+          onTagClick={handleTagClick}
+          isSearching={isSearching}
+        />
 
-      <main className="home-page__main flex-grow-1">
-        <Container fluid="lg" className="home-page__container px-3 px-md-4">
-          <HomeHero
-            searchQuery={query}
-            onSearchChange={handleSearchChange}
-            onTagClick={handleTagClick}
-            isSearching={isSearching}
-          />
-
-          {hasActiveSearch ? (
-            mode === 'users' ? (
-              <SearchResultsSection
-                results={results}
-                totalCount={totalCount}
-                isSearching={isSearching}
-                error={searchError}
-                useTrendingSkeleton={isPopularTagSearch}
-              />
-            ) : (
-              <RepositorySearchResultsSection
-                results={results}
-                totalCount={totalCount}
-                isSearching={isSearching}
-                error={searchError}
-              />
-            )
-          ) : (
-            <TrendingDevelopersSection
-              developers={developers}
-              isLoading={isTrendingLoading}
-              error={trendingError}
+        {hasActiveSearch ? (
+          mode === 'users' ? (
+            <SearchResultsSection
+              results={results}
+              totalCount={totalCount}
+              isSearching={isSearching}
+              error={searchError}
+              useTrendingSkeleton={isPopularTagSearch}
             />
-          )}
-        </Container>
-      </main>
-
-      <HomeFooter />
-    </div>
+          ) : (
+            <RepositorySearchResultsSection
+              results={results}
+              totalCount={totalCount}
+              isSearching={isSearching}
+              error={searchError}
+            />
+          )
+        ) : (
+          <TrendingDevelopersSection
+            developers={developers}
+            isLoading={isTrendingLoading}
+            error={trendingError}
+          />
+        )}
+      </Container>
+    </PageLayout>
   )
 }

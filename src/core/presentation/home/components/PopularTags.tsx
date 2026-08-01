@@ -7,7 +7,7 @@ type PopularTagsProps = {
 export function PopularTags({ onTagClick }: PopularTagsProps) {
   return (
     <div className="popular-tags d-none d-md-flex">
-      <span className="popular-tags__label">POPULAR:</span>
+      <span className="popular-tags__label">POPULARES:</span>
       {POPULAR_TAGS.map((tag) => (
         <button
           key={tag}

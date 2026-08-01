@@ -4,6 +4,7 @@ import { extractTagsFromBio } from '@/core/presentation/home/utils/extract-tags'
 import { FollowingTag } from '@/shared/components/FollowingTag'
 import { profilePath } from '@/shared/constants/routes'
 import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
+import { getDisplayName } from '@/shared/utils/get-display-name'
 import './DeveloperCompactCard.css'
 
 type DeveloperCompactCardProps = {
@@ -12,7 +13,7 @@ type DeveloperCompactCardProps = {
 
 export function DeveloperCompactCard({ developer }: DeveloperCompactCardProps) {
   const { isFollowing } = useGithubAuth()
-  const displayName = developer.name ?? developer.login
+  const displayName = getDisplayName(developer)
   const tags = extractTagsFromBio(developer.bio)
   const isUserFollowing = isFollowing(developer.login)
 

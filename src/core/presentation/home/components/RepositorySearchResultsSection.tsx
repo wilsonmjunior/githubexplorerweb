@@ -1,5 +1,6 @@
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
-import { RepositoryListCard } from '@/core/presentation/profile/components/RepositoryListCard'
+import { EmptyState } from '@/shared/components/EmptyState'
+import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
 import './RepositorySearchResultsSection.css'
 
@@ -39,9 +40,10 @@ export function RepositorySearchResultsSection({
       ) : null}
 
       {!isSearching && !error && results.length === 0 ? (
-        <p className="repository-search-results__state">
-          Nenhum repositório encontrado.
-        </p>
+        <EmptyState
+          message="Nenhum repositório encontrado."
+          className="repository-search-results__state"
+        />
       ) : null}
 
       {!isSearching && !error && results.length > 0 ? (

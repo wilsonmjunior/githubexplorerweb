@@ -4,6 +4,7 @@ import { formatCompactNumber } from '@/shared/utils/format-number'
 import { FollowingTag } from '@/shared/components/FollowingTag'
 import { profilePath } from '@/shared/constants/routes'
 import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
+import { getDisplayName } from '@/shared/utils/get-display-name'
 import './DeveloperFeaturedCard.css'
 
 type DeveloperFeaturedCardProps = {
@@ -12,7 +13,7 @@ type DeveloperFeaturedCardProps = {
 
 export function DeveloperFeaturedCard({ developer }: DeveloperFeaturedCardProps) {
   const { isFollowing } = useGithubAuth()
-  const displayName = developer.name ?? developer.login
+  const displayName = getDisplayName(developer)
   const isUserFollowing = isFollowing(developer.login)
 
   return (
@@ -37,7 +38,7 @@ export function DeveloperFeaturedCard({ developer }: DeveloperFeaturedCardProps)
         <p className="developer-featured__handle">@{developer.login}</p>
         <p className="developer-featured__bio">
           {developer.bio ??
-            'Leading architecture for distributed systems and open-source enthusiast.'}
+            'Arquitetura de sistemas distribuídos e entusiasta de código aberto.'}
         </p>
       </div>
 
@@ -49,13 +50,13 @@ export function DeveloperFeaturedCard({ developer }: DeveloperFeaturedCardProps)
           </span>
         </div>
         <div>
-          <span className="developer-featured__stat-label">STARS</span>
+          <span className="developer-featured__stat-label">GISTS</span>
           <span className="developer-featured__stat-value">
             {formatCompactNumber(developer.publicGists)}
           </span>
         </div>
         <div>
-          <span className="developer-featured__stat-label">FOLLOWERS</span>
+          <span className="developer-featured__stat-label">SEGUIDORES</span>
           <span className="developer-featured__stat-value">
             {formatCompactNumber(developer.followers)}
           </span>

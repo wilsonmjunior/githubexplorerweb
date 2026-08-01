@@ -25,10 +25,10 @@ export function TrendingDevelopersSection({
       <div className="trending-section__header">
         <h2 className="trending-section__title">
           <i className="bi bi-graph-up-arrow" aria-hidden="true" />
-          Trending Developers
+          Desenvolvedores em alta
         </h2>
         <Link to={APP_ROUTES.TRENDING_DEVELOPERS} className="trending-section__view-all">
-          VIEW ALL
+          VER TODOS
         </Link>
       </div>
 

@@ -1,6 +1,7 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { Link } from 'react-router-dom'
 import { formatCompactNumber } from '@/shared/utils/format-number'
+import { getDisplayName } from '@/shared/utils/get-display-name'
 import { FollowingTag } from '@/shared/components/FollowingTag'
 import { profilePath } from '@/shared/constants/routes'
 import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
@@ -13,7 +14,7 @@ type DeveloperCardProps = {
 
 export function DeveloperCard({ developer, rank }: DeveloperCardProps) {
   const { isFollowing } = useGithubAuth()
-  const displayName = developer.name ?? developer.login
+  const displayName = getDisplayName(developer)
   const subtitle = developer.bio ?? `@${developer.login}`
   const isUserFollowing = isFollowing(developer.login)
 
