@@ -1,0 +1,37 @@
+.app-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--ge-outline-variant);
+  background: var(--ge-surface-container-lowest);
+}
+
+.app-footer__container {
+  display: flex;
+  justify-content: center;
+  max-width: var(--ge-container-max);
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  text-align: center;
+}
+
+.app-footer__logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ge-on-surface);
+}
+
+.app-footer__copyright {
+  margin-top: 0.25rem;
+  color: var(--ge-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  opacity: 0.8;
+}
+
+@media (min-width: 768px) {
+  .app-footer__container {
+    justify-content: flex-start;
+    text-align: left;
+  }
+}
