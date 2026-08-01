@@ -34,30 +34,12 @@
   background: rgba(56, 189, 248, 0.1);
 }
 
-.developer-featured__top {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .developer-featured__avatar {
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
   border: 2px solid rgba(56, 189, 248, 0.2);
   object-fit: cover;
-}
-
-.developer-featured__badge {
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  background: var(--ge-secondary-container);
-  color: var(--ge-on-secondary-container);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
 }
 
 .developer-featured__body {

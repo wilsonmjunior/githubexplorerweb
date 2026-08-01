@@ -1,7 +1,9 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { Link } from 'react-router-dom'
-import { profilePath } from '@/shared/constants/routes'
 import { formatCompactNumber } from '@/shared/utils/format-number'
+import { FollowingTag } from '@/shared/components/FollowingTag'
+import { profilePath } from '@/shared/constants/routes'
+import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
 import './DeveloperCard.css'
 
 type DeveloperCardProps = {
@@ -10,11 +12,17 @@ type DeveloperCardProps = {
 }
 
 export function DeveloperCard({ developer, rank }: DeveloperCardProps) {
+  const { isFollowing } = useGithubAuth()
   const displayName = developer.name ?? developer.login
   const subtitle = developer.bio ?? `@${developer.login}`
+  const isUserFollowing = isFollowing(developer.login)
 
   return (
     <article className="developer-card glass-card">
+      {isUserFollowing ? (
+        <FollowingTag className="following-tag--top-right" />
+      ) : null}
+
       <div className="developer-card__avatar-wrap">
         <img
           src={developer.avatarUrl}
@@ -52,14 +60,6 @@ export function DeveloperCard({ developer, rank }: DeveloperCardProps) {
           </span>
         </div>
       </div>
-
-      <Link
-        to={profilePath(developer.login)}
-        className="developer-card__action"
-        aria-label={`Ver perfil de ${displayName}`}
-      >
-        <i className="bi bi-person-plus" aria-hidden="true" />
-      </Link>
     </article>
   )
 }

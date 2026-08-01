@@ -1,5 +1,7 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { formatCompactNumber } from '@/shared/utils/format-number'
+import { FollowingTag } from '@/shared/components/FollowingTag'
+import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
 import './ProfileHero.css'
 
 type ProfileHeroProps = {
@@ -7,10 +9,16 @@ type ProfileHeroProps = {
 }
 
 export function ProfileHero({ user }: ProfileHeroProps) {
+  const { isFollowing } = useGithubAuth()
   const displayName = user.name ?? user.login
+  const isUserFollowing = isFollowing(user.login)
 
   return (
     <section className="profile-hero text-center">
+      {isUserFollowing ? (
+        <FollowingTag className="following-tag--top-right" />
+      ) : null}
+
       <div className="profile-hero__content">
         <div className="profile-hero__avatar-wrap">
           <img
@@ -53,15 +61,6 @@ export function ProfileHero({ user }: ProfileHeroProps) {
           </div>
         </div>
       </div>
-
-      <a
-        href={user.htmlUrl}
-        target="_blank"
-        rel="noreferrer"
-        className="profile-hero__follow"
-      >
-        Follow
-      </a>
     </section>
   )
 }

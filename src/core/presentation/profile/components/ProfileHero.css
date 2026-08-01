@@ -1,4 +1,5 @@
 .profile-hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -71,31 +72,6 @@
   margin: 1.5rem auto 0;
 }
 
-.profile-hero__follow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  align-self: stretch;
-  width: 100%;
-  max-width: 28rem;
-  margin-top: auto;
-  min-height: 2.75rem;
-  padding: 0.625rem 1rem;
-  border: none;
-  border-radius: 0.5rem;
-  background: var(--ge-primary-container);
-  color: var(--ge-on-primary);
-  font-weight: 700;
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.profile-hero__follow:active {
-  transform: scale(0.98);
-}
-
 .profile-hero__stat-value {
   display: block;
   font-size: 1.25rem;
@@ -115,9 +91,7 @@
   .profile-hero {
     display: grid;
     grid-template-columns: auto 1fr;
-    grid-template-areas:
-      'avatar content'
-      'avatar follow';
+    grid-template-areas: 'avatar content';
     gap: 0 2rem;
     align-items: start;
     padding: 2.5rem 0 1rem;
@@ -142,15 +116,5 @@
   .profile-hero__stats {
     margin: 1rem 0 0;
     max-width: 24rem;
-  }
-
-  .profile-hero__follow {
-    grid-area: follow;
-    align-self: end;
-    justify-self: start;
-    width: auto;
-    min-width: 12rem;
-    max-width: 12rem;
-    margin-top: 0;
   }
 }

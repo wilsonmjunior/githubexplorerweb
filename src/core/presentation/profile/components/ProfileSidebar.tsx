@@ -1,5 +1,7 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { formatCompactNumber } from '@/shared/utils/format-number'
+import { FollowingTag } from '@/shared/components/FollowingTag'
+import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
 import './ProfileSidebar.css'
 
 type ProfileSidebarProps = {
@@ -11,10 +13,16 @@ function formatBlogUrl(blog: string): string {
 }
 
 export function ProfileSidebar({ user }: ProfileSidebarProps) {
+  const { isFollowing } = useGithubAuth()
   const displayName = user.name ?? user.login
+  const isUserFollowing = isFollowing(user.login)
 
   return (
     <aside className="profile-sidebar">
+      {isUserFollowing ? (
+        <FollowingTag className="following-tag--top-right" />
+      ) : null}
+
       <img
         src={user.avatarUrl}
         alt={`Avatar de ${displayName}`}

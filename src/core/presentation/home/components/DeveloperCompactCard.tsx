@@ -1,7 +1,9 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { Link } from 'react-router-dom'
-import { profilePath } from '@/shared/constants/routes'
 import { extractTagsFromBio } from '@/core/presentation/home/utils/extract-tags'
+import { FollowingTag } from '@/shared/components/FollowingTag'
+import { profilePath } from '@/shared/constants/routes'
+import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
 import './DeveloperCompactCard.css'
 
 type DeveloperCompactCardProps = {
@@ -9,11 +11,20 @@ type DeveloperCompactCardProps = {
 }
 
 export function DeveloperCompactCard({ developer }: DeveloperCompactCardProps) {
+  const { isFollowing } = useGithubAuth()
   const displayName = developer.name ?? developer.login
   const tags = extractTagsFromBio(developer.bio)
+  const isUserFollowing = isFollowing(developer.login)
 
   return (
-    <article className="developer-compact glass-card">
+    <Link
+      to={profilePath(developer.login)}
+      className="developer-compact glass-card"
+    >
+      {isUserFollowing ? (
+        <FollowingTag className="following-tag--top-right" />
+      ) : null}
+
       <img
         src={developer.avatarUrl}
         alt={`Avatar de ${displayName}`}
@@ -21,6 +32,7 @@ export function DeveloperCompactCard({ developer }: DeveloperCompactCardProps) {
       />
 
       <h4 className="developer-compact__name">{displayName}</h4>
+
       <p className="developer-compact__handle">@{developer.login}</p>
 
       {tags.length > 0 ? (
@@ -32,15 +44,6 @@ export function DeveloperCompactCard({ developer }: DeveloperCompactCardProps) {
           ))}
         </div>
       ) : null}
-
-      <div className="developer-compact__footer">
-        <Link
-          to={profilePath(developer.login)}
-          className="developer-compact__follow"
-        >
-          FOLLOW
-        </Link>
-      </div>
-    </article>
+    </Link>
   )
 }

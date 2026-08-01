@@ -29,12 +29,6 @@ export function ProfileHeroSkeleton() {
           ))}
         </div>
       </div>
-
-      <Skeleton
-        variant="rectangular"
-        className="profile-hero-skeleton__follow"
-        height="2.75rem"
-      />
     </section>
   )
 }

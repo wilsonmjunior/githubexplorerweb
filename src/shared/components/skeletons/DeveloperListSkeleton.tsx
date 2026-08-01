@@ -22,7 +22,6 @@ function DeveloperCardSkeleton({ featured = false }: { featured?: boolean }) {
           <Skeleton variant="text" width="3.5rem" height="0.75rem" />
         </div>
       </div>
-      <Skeleton variant="circular" width="2.25rem" height="2.25rem" />
     </article>
   )
 }
@@ -37,7 +36,6 @@ function DeveloperCompactCardSkeleton() {
         <Skeleton variant="rectangular" width="4rem" height="1.25rem" />
         <Skeleton variant="rectangular" width="3.5rem" height="1.25rem" />
       </div>
-      <Skeleton variant="rectangular" width="5rem" height="2rem" />
     </article>
   )
 }
@@ -45,10 +43,7 @@ function DeveloperCompactCardSkeleton() {
 function DeveloperFeaturedCardSkeleton() {
   return (
     <article className="developer-featured-skeleton glass-card">
-      <div className="developer-featured-skeleton__top">
-        <Skeleton variant="circular" width="5rem" height="5rem" />
-        <Skeleton variant="rectangular" width="8rem" height="1.25rem" />
-      </div>
+      <Skeleton variant="circular" width="5rem" height="5rem" />
       <Skeleton variant="text" width="60%" height="1.5rem" />
       <Skeleton variant="text" width="40%" height="0.875rem" />
       <Skeleton variant="text" width="100%" />

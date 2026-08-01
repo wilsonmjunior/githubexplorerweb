@@ -72,13 +72,6 @@
   border-radius: 0.75rem;
 }
 
-.developer-featured-skeleton__top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
 .developer-featured-skeleton__stats {
   display: flex;
   gap: 0.75rem;

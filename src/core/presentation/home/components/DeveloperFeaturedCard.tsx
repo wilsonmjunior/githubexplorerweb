@@ -1,7 +1,9 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { Link } from 'react-router-dom'
-import { profilePath } from '@/shared/constants/routes'
 import { formatCompactNumber } from '@/shared/utils/format-number'
+import { FollowingTag } from '@/shared/components/FollowingTag'
+import { profilePath } from '@/shared/constants/routes'
+import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
 import './DeveloperFeaturedCard.css'
 
 type DeveloperFeaturedCardProps = {
@@ -9,7 +11,9 @@ type DeveloperFeaturedCardProps = {
 }
 
 export function DeveloperFeaturedCard({ developer }: DeveloperFeaturedCardProps) {
+  const { isFollowing } = useGithubAuth()
   const displayName = developer.name ?? developer.login
+  const isUserFollowing = isFollowing(developer.login)
 
   return (
     <Link
@@ -18,14 +22,15 @@ export function DeveloperFeaturedCard({ developer }: DeveloperFeaturedCardProps)
     >
       <div className="developer-featured__glow" aria-hidden="true" />
 
-      <div className="developer-featured__top">
-        <img
-          src={developer.avatarUrl}
-          alt={`Avatar de ${displayName}`}
-          className="developer-featured__avatar"
-        />
-        <span className="developer-featured__badge">TOP CONTRIBUTOR</span>
-      </div>
+      {isUserFollowing ? (
+        <FollowingTag className="following-tag--top-right" />
+      ) : null}
+
+      <img
+        src={developer.avatarUrl}
+        alt={`Avatar de ${displayName}`}
+        className="developer-featured__avatar"
+      />
 
       <div className="developer-featured__body">
         <h3 className="developer-featured__name">{displayName}</h3>

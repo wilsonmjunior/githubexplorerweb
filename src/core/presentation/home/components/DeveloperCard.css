@@ -1,4 +1,5 @@
 .developer-card {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -95,26 +96,4 @@
 
 .developer-card__stat i {
   font-size: 0.875rem;
-}
-
-.developer-card__action {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: rgba(56, 189, 248, 0.1);
-  color: var(--ge-primary);
-  transition: background-color 0.15s ease, transform 0.15s ease;
-}
-
-.developer-card__action:hover {
-  background: rgba(56, 189, 248, 0.2);
-  color: var(--ge-primary-container);
-}
-
-.developer-card__action:active {
-  transform: scale(0.95);
 }

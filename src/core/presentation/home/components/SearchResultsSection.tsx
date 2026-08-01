@@ -2,6 +2,7 @@ import type { GitHubUserDto } from '@/core/domain/github'
 import { DeveloperCard } from '@/core/presentation/home/components/DeveloperCard'
 import { DeveloperCompactCard } from '@/core/presentation/home/components/DeveloperCompactCard'
 import { DeveloperListSkeleton } from '@/shared/components/skeletons/DeveloperListSkeleton'
+import { TrendingDevelopersPageSkeleton } from '@/shared/components/skeletons/TrendingDevelopersPageSkeleton'
 import './SearchResultsSection.css'
 
 type SearchResultsSectionProps = {
@@ -9,6 +10,7 @@ type SearchResultsSectionProps = {
   totalCount: number
   isSearching: boolean
   error: string | null
+  useTrendingSkeleton?: boolean
 }
 
 export function SearchResultsSection({
@@ -16,6 +18,7 @@ export function SearchResultsSection({
   totalCount,
   isSearching,
   error,
+  useTrendingSkeleton = false,
 }: SearchResultsSectionProps) {
   return (
     <section className="search-results">
@@ -31,7 +34,13 @@ export function SearchResultsSection({
         ) : null}
       </div>
 
-      {isSearching ? <DeveloperListSkeleton count={6} /> : null}
+      {isSearching ? (
+        useTrendingSkeleton ? (
+          <TrendingDevelopersPageSkeleton count={8} variant="list" />
+        ) : (
+          <DeveloperListSkeleton count={6} />
+        )
+      ) : null}
 
       {error ? (
         <p className="search-results__state search-results__error">{error}</p>

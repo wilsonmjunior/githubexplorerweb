@@ -27,8 +27,6 @@ function TrendingDeveloperCardSkeleton() {
           <Skeleton variant="text" width="3.5rem" height="0.75rem" />
         </div>
       </div>
-
-      <Skeleton variant="circular" width="2.5rem" height="2.5rem" />
     </article>
   )
 }
@@ -43,12 +41,6 @@ function TrendingDeveloperCompactCardSkeleton() {
         <Skeleton variant="rectangular" width="4rem" height="1.25rem" />
         <Skeleton variant="rectangular" width="3.5rem" height="1.25rem" />
       </div>
-      <Skeleton
-        variant="rectangular"
-        width="100%"
-        height="2.5rem"
-        className="trending-dev-compact-skeleton__follow"
-      />
     </article>
   )
 }
