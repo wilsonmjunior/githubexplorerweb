@@ -1,0 +1,38 @@
+.home-header {
+  background: var(--ge-surface);
+  border-bottom: 1px solid var(--ge-outline-variant);
+  z-index: 1030;
+}
+
+.home-header__navbar {
+  max-width: var(--ge-container-max);
+  margin: 0 auto;
+}
+
+.home-header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.home-header__start {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  min-width: 0;
+}
+
+.home-header__brand {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--ge-primary) !important;
+  white-space: nowrap;
+}
+
+.home-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}

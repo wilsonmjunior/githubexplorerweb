@@ -1,0 +1,41 @@
+.repository-search-results {
+  margin-top: 2rem;
+}
+
+.repository-search-results__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.repository-search-results__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.repository-search-results__count {
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: 0.875rem;
+}
+
+.repository-search-results__state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.repository-search-results__error {
+  color: var(--md-sys-color-error);
+}
+
+.repository-search-results__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

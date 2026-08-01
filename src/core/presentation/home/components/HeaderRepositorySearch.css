@@ -1,0 +1,102 @@
+.header-repo-search {
+  position: relative;
+  width: 100%;
+  max-width: 20rem;
+}
+
+.header-repo-search i {
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  z-index: 1;
+  color: var(--ge-outline);
+  pointer-events: none;
+}
+
+.header-repo-search input {
+  width: 100%;
+  padding: 0.5rem 2.25rem 0.5rem 2.75rem;
+  border: 1px solid var(--ge-outline-variant);
+  border-radius: 0.75rem;
+  background: var(--ge-surface-container-low);
+  color: var(--ge-on-surface);
+  outline: none;
+  font-size: 0.875rem;
+}
+
+.header-repo-search input:focus {
+  border-color: var(--ge-primary);
+}
+
+.header-repo-search input::placeholder {
+  color: var(--ge-outline);
+}
+
+.header-repo-search__spinner {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  transform: translateY(-50%);
+}
+
+.header-repo-search__dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  max-height: 18rem;
+  overflow-y: auto;
+  border-radius: 0.75rem;
+  background: var(--ge-surface-container);
+  border: 1px solid var(--ge-outline-variant);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+}
+
+.header-repo-search__message {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--ge-on-surface-variant);
+}
+
+.header-repo-search__message--error {
+  color: #f87171;
+}
+
+.header-repo-search__option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.125rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 0;
+  background: transparent;
+  color: var(--ge-on-surface);
+  text-align: left;
+  cursor: pointer;
+}
+
+.header-repo-search__option:hover,
+.header-repo-search__option:focus-visible {
+  background: var(--ge-surface-container-high);
+  outline: none;
+}
+
+.header-repo-search__option-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.header-repo-search__option-description {
+  font-size: 0.75rem;
+  color: var(--ge-on-surface-variant);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}

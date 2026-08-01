@@ -1,0 +1,85 @@
+.developer-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.developer-compact:hover {
+  background: var(--ge-surface-container);
+  transform: translateY(-4px);
+}
+
+.developer-compact__avatar {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  border: 1px solid var(--ge-outline-variant);
+  object-fit: cover;
+}
+
+.developer-compact__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--ge-on-surface);
+}
+
+.developer-compact__handle {
+  margin-top: 0.25rem;
+  color: var(--ge-outline);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+}
+
+.developer-compact__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin-top: 1rem;
+}
+
+.developer-compact__tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--ge-surface-container-highest);
+  color: var(--ge-on-surface);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+}
+
+.developer-compact__footer {
+  align-self: stretch;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.developer-compact__follow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 2.5rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--ge-outline-variant);
+  border-radius: 0.5rem;
+  color: var(--ge-on-surface);
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.developer-compact:hover .developer-compact__follow {
+  background: var(--ge-primary);
+  border-color: var(--ge-primary);
+  color: var(--ge-on-primary);
+}

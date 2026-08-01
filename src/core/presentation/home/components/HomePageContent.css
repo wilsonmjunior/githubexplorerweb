@@ -1,0 +1,28 @@
+.home-page {
+  background: var(--ge-background);
+  color: var(--ge-on-surface);
+}
+
+.home-page__main {
+  background: var(--ge-background);
+}
+
+.home-page__container {
+  max-width: var(--ge-container-max);
+}
+
+@media (min-width: 768px) {
+  .home-page__main {
+    background:
+      radial-gradient(
+        circle at top center,
+        rgba(56, 189, 248, 0.08) 0%,
+        transparent 70%
+      ),
+      var(--ge-background);
+  }
+}
+
+.bottom-nav-spacer {
+  height: 4.5rem;
+}
