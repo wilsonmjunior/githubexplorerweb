@@ -1,5 +1,5 @@
 import Container from 'react-bootstrap/Container'
-import { BottomNav } from '@/core/presentation/home/components/BottomNav'
+import { useState } from 'react'
 import { HomeFooter } from '@/core/presentation/home/components/HomeFooter'
 import { HomeHeader } from '@/core/presentation/home/components/HomeHeader'
 import { HomeHero } from '@/core/presentation/home/components/HomeHero'
@@ -11,6 +11,7 @@ import { useTrendingDevelopers } from '@/core/presentation/home/hooks/useTrendin
 import './HomePageContent.css'
 
 export function HomePageContent() {
+  const [isPopularTagSearch, setIsPopularTagSearch] = useState(false)
   const homeSearch = useResponsiveHomeSearch()
   const {
     mode,
@@ -30,7 +31,13 @@ export function HomePageContent() {
   } = useTrendingDevelopers()
 
   const handleTagClick = (tag: string) => {
+    setIsPopularTagSearch(true)
     setQuery(tag)
+  }
+
+  const handleSearchChange = (value: string) => {
+    setIsPopularTagSearch(false)
+    setQuery(value)
   }
 
   return (
@@ -41,7 +48,7 @@ export function HomePageContent() {
         <Container fluid="lg" className="home-page__container px-3 px-md-4">
           <HomeHero
             searchQuery={query}
-            onSearchChange={setQuery}
+            onSearchChange={handleSearchChange}
             onTagClick={handleTagClick}
             isSearching={isSearching}
           />
@@ -53,6 +60,7 @@ export function HomePageContent() {
                 totalCount={totalCount}
                 isSearching={isSearching}
                 error={searchError}
+                useTrendingSkeleton={isPopularTagSearch}
               />
             ) : (
               <RepositorySearchResultsSection
@@ -73,8 +81,6 @@ export function HomePageContent() {
       </main>
 
       <HomeFooter />
-      <BottomNav />
-      <div className="bottom-nav-spacer d-md-none" aria-hidden="true" />
     </div>
   )
 }
