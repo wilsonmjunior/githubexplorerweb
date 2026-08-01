@@ -1,6 +1,7 @@
 export const APP_ROUTES = {
   HOME: '/',
   TRENDING_DEVELOPERS: '/developers/trending',
+  ACCOUNT: '/me',
   PROFILE: '/users/:login',
   REPOSITORY: '/repos/:owner/:repo',
 } as const

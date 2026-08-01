@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 import { APP_ROUTES } from '@/shared/constants/routes'
+import { AccountPage } from '@/app/account/AccountPage'
 import { TrendingDevelopersPage } from '@/app/developers/TrendingDevelopersPage'
 import { HomePage } from '@/app/home/HomePage'
 import { ProfilePage } from '@/app/profile/ProfilePage'
@@ -13,6 +14,10 @@ export const router = createBrowserRouter([
   {
     path: APP_ROUTES.TRENDING_DEVELOPERS,
     element: <TrendingDevelopersPage />,
+  },
+  {
+    path: APP_ROUTES.ACCOUNT,
+    element: <AccountPage />,
   },
   {
     path: APP_ROUTES.PROFILE,

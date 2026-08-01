@@ -1,0 +1,141 @@
+.account-page-skeleton__grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 3fr) 9fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.account-page-skeleton__content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.account-page-skeleton__profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-page-skeleton__avatar {
+  flex-shrink: 0;
+}
+
+.account-page-skeleton__identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.account-page-skeleton__counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.account-page-skeleton__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.account-page-skeleton__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.account-page-skeleton__stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.account-page-skeleton__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+}
+
+.account-page-skeleton__organizations {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-page-skeleton__organizations-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.account-page-skeleton__organization {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  padding: 0.875rem;
+  border-radius: 0.75rem;
+}
+
+.account-page-skeleton__organization > .skeleton--rectangular {
+  border-radius: 0.5rem;
+}
+
+.account-page-skeleton__actions .skeleton--rectangular {
+  border-radius: 0.5rem;
+}
+
+.account-page-skeleton__organization-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.account-page-skeleton__repositories-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.account-page-skeleton__repositories-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-page-skeleton__repositories-list > .repository-list-skeleton {
+  display: contents;
+}
+
+@media (min-width: 768px) {
+  .account-page-skeleton__stats {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .account-page-skeleton__organizations-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .account-page-skeleton__grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .account-page-skeleton__profile {
+    align-items: center;
+    text-align: center;
+  }
+
+  .account-page-skeleton__actions {
+    width: 100%;
+  }
+}
