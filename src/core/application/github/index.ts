@@ -2,6 +2,8 @@ export { SearchGitHubUsersUseCase } from './use-cases/search-github-users-usecas
 export { SearchGitHubRepositoriesUseCase } from './use-cases/search-github-repositories-usecase'
 export { GetTrendingDevelopersUseCase } from './use-cases/get-trending-developers-usecase'
 export { GetGitHubUserUseCase } from './use-cases/get-github-user-usecase'
+export { GetAuthenticatedUserFollowingUseCase } from './use-cases/get-authenticated-user-following-usecase'
+export { GetAuthenticatedGitHubUserDetailsUseCase } from './use-cases/get-authenticated-github-user-details-usecase'
 export { GetAuthenticatedGitHubUserUseCase } from './use-cases/get-authenticated-github-user-usecase'
 export { GetUserRepositoriesUseCase } from './use-cases/get-user-repositories-usecase'
 export { GetGitHubRepositoryDetailsUseCase } from './use-cases/get-github-repository-details-usecase'

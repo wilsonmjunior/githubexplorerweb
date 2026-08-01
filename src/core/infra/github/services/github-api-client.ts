@@ -1,5 +1,7 @@
 import type { GitHubClient } from '@/core/domain/github'
 import type {
+  GetAuthenticatedGitHubUserDetailsOutputDto,
+  GetAuthenticatedUserFollowingOutputDto,
   GetGitHubRepositoryDetailsOutputDto,
   GetGitHubRepositoryInputDto,
   GetTrendingDevelopersInputDto,
@@ -15,6 +17,8 @@ import type {
 } from '@/core/domain/github'
 import { GitHubApiException } from '@/core/domain/github/exceptions/github-api-exception'
 import { createGitHubHttpClient } from '@/core/infra/github/http/create-github-http-client'
+import { mapAuthenticatedGitHubUser } from '@/core/infra/github/mappers/authenticated-github-user-mapper'
+import { mapGitHubOrganization } from '@/core/infra/github/mappers/github-organization-mapper'
 import { mapRepositoryCommits } from '@/core/infra/github/mappers/repository-activity-mapper'
 import { mapGitHubRepoSummary } from '@/core/infra/github/mappers/github-repo-summary-mapper'
 import { mapGitHubRepository } from '@/core/infra/github/mappers/github-repository-mapper'
@@ -42,6 +46,18 @@ type GitHubContributorResponse = {
   avatar_url: string
   html_url: string
   contributions: number
+}
+
+type GitHubFollowingUserResponse = {
+  login: string
+}
+
+type GitHubOrganizationResponse = {
+  id: number
+  login: string
+  avatar_url: string
+  html_url: string
+  description?: string | null
 }
 
 function buildRepositorySearchQuery(
@@ -121,6 +137,11 @@ export class GitHubApiClient implements GitHubClient {
   }
 
   async getAuthenticatedUser(): Promise<GitHubUserDto | null> {
+    const details = await this.getAuthenticatedUserDetails()
+    return details?.user ?? null
+  }
+
+  async getAuthenticatedUserDetails(): Promise<GetAuthenticatedGitHubUserDetailsOutputDto | null> {
     const token = import.meta.env.VITE_GITHUB_TOKEN?.trim()
 
     if (!token) {
@@ -128,14 +149,78 @@ export class GitHubApiClient implements GitHubClient {
     }
 
     try {
-      const { data } = await this.http.get('/user')
-      return mapGitHubUser(data)
+      const [userResult, organizationsResult] = await Promise.allSettled([
+        this.http.get('/user'),
+        this.http.get<GitHubOrganizationResponse[]>('/user/orgs', {
+          params: { per_page: 100 },
+        }),
+      ])
+
+      if (userResult.status === 'rejected') {
+        throw userResult.reason
+      }
+
+      const organizations =
+        organizationsResult.status === 'fulfilled'
+          ? organizationsResult.value.data.map(mapGitHubOrganization)
+          : []
+
+      return {
+        user: mapAuthenticatedGitHubUser(userResult.value.data),
+        organizations,
+      }
     } catch (error) {
       if (
         error instanceof GitHubApiException &&
         (error.status === 401 || error.status === 403)
       ) {
         return null
+      }
+
+      throw error
+    }
+  }
+
+  async getAuthenticatedUserFollowing(): Promise<GetAuthenticatedUserFollowingOutputDto> {
+    const token = import.meta.env.VITE_GITHUB_TOKEN?.trim()
+
+    if (!token) {
+      return { logins: [] }
+    }
+
+    try {
+      const logins: string[] = []
+      const maxPages = 5
+
+      for (let page = 1; page <= maxPages; page += 1) {
+        const { data } = await this.http.get<GitHubFollowingUserResponse[]>(
+          '/user/following',
+          {
+            params: {
+              per_page: 100,
+              page,
+            },
+          },
+        )
+
+        if (data.length === 0) {
+          break
+        }
+
+        logins.push(...data.map((user) => user.login))
+
+        if (data.length < 100) {
+          break
+        }
+      }
+
+      return { logins }
+    } catch (error) {
+      if (
+        error instanceof GitHubApiException &&
+        (error.status === 401 || error.status === 403)
+      ) {
+        return { logins: [] }
       }
 
       throw error

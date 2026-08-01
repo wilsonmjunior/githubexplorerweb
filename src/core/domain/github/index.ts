@@ -1,3 +1,7 @@
+export type { GetAuthenticatedUserFollowingOutputDto } from './types/get-authenticated-user-following-dto'
+export type { AuthenticatedGitHubUserDto } from './types/authenticated-github-user-dto'
+export type { GetAuthenticatedGitHubUserDetailsOutputDto } from './types/get-authenticated-github-user-details-dto'
+export type { GitHubOrganizationDto } from './types/github-organization-dto'
 export type { GitHubClient } from './services/github-client'
 export type { GitHubUserDto } from './types/github-user-dto'
 export type { GitHubRepositoryDto, GitHubRepositoryOwnerDto } from './types/github-repository-dto'

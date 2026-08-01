@@ -1,4 +1,6 @@
 import {
+  GetAuthenticatedUserFollowingUseCase,
+  GetAuthenticatedGitHubUserDetailsUseCase,
   GetAuthenticatedGitHubUserUseCase,
   GetGitHubRepositoryDetailsUseCase,
   GetGitHubUserUseCase,
@@ -29,6 +31,18 @@ export function makeGetTrendingDevelopersUseCase(): GetTrendingDevelopersUseCase
 
 export function makeGetGitHubUserUseCase(): GetGitHubUserUseCase {
   return new GetGitHubUserUseCase({
+    githubClient: makeGitHubClient(),
+  })
+}
+
+export function makeGetAuthenticatedGitHubUserDetailsUseCase(): GetAuthenticatedGitHubUserDetailsUseCase {
+  return new GetAuthenticatedGitHubUserDetailsUseCase({
+    githubClient: makeGitHubClient(),
+  })
+}
+
+export function makeGetAuthenticatedUserFollowingUseCase(): GetAuthenticatedUserFollowingUseCase {
+  return new GetAuthenticatedUserFollowingUseCase({
     githubClient: makeGitHubClient(),
   })
 }
