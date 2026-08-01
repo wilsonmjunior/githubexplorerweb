@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { GitHubUserDto } from '@/core/domain/github'
 import { makeGetTrendingDevelopersUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
@@ -11,32 +11,41 @@ type UseTrendingDevelopersResult = {
 
 export function useTrendingDevelopers(): UseTrendingDevelopersResult {
   const [developers, setDevelopers] = useState<GitHubUserDto[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [hasLoaded, setHasLoaded] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const loadDevelopers = useCallback(async () => {
-    setIsLoading(true)
-    setError(null)
-
-    try {
-      const useCase = makeGetTrendingDevelopersUseCase()
-      const result = await useCase.execute({ perPage: 5 })
-      setDevelopers(result.developers)
-    } catch (loadError) {
-      setError(
-        getGithubErrorMessage(
-          loadError,
-          'Não foi possível carregar os desenvolvedores em alta.',
-        ),
-      )
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+  const isLoading = !hasLoaded
 
   useEffect(() => {
-    void loadDevelopers()
-  }, [loadDevelopers])
+    let cancelled = false
+
+    ;(async () => {
+      try {
+        const useCase = makeGetTrendingDevelopersUseCase()
+        const result = await useCase.execute({ perPage: 5 })
+
+        if (!cancelled) {
+          setDevelopers(result.developers)
+          setError(null)
+          setHasLoaded(true)
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(
+            getGithubErrorMessage(
+              loadError,
+              'Não foi possível carregar os desenvolvedores em alta.',
+            ),
+          )
+          setHasLoaded(true)
+        }
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   return { developers, isLoading, error }
 }

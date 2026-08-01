@@ -18,48 +18,52 @@ type UseTrendingDevelopersListResult = {
 export function useTrendingDevelopersList(): UseTrendingDevelopersListResult {
   const [developers, setDevelopers] = useState<GitHubUserDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
-  const [page, setPage] = useState(1)
-  const [isLoading, setIsLoading] = useState(true)
+  const [page, setPage] = useState(0)
+  const [loadedPage, setLoadedPage] = useState(0)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchPage = useCallback(async (pageToLoad: number, append: boolean) => {
-    if (append) {
-      setIsLoadingMore(true)
-    } else {
-      setIsLoading(true)
-    }
+  const isLoading = loadedPage < 1
 
-    setError(null)
-
-    try {
-      const useCase = makeGetTrendingDevelopersUseCase()
-      const result = await useCase.execute({
-        perPage: TRENDING_DEVELOPERS_PAGE_SIZE,
-        page: pageToLoad,
-      })
-
-      setTotalCount(result.totalCount)
-      setDevelopers((current) =>
-        append ? [...current, ...result.developers] : result.developers,
-      )
-      setPage(pageToLoad)
-    } catch (loadError) {
-      setError(
-        getGithubErrorMessage(
-          loadError,
-          'Não foi possível carregar os desenvolvedores em alta.',
-        ),
-      )
-    } finally {
-      setIsLoading(false)
-      setIsLoadingMore(false)
-    }
+  const fetchTrendingPage = useCallback(async (pageToLoad: number) => {
+    const useCase = makeGetTrendingDevelopersUseCase()
+    return useCase.execute({
+      perPage: TRENDING_DEVELOPERS_PAGE_SIZE,
+      page: pageToLoad,
+    })
   }, [])
 
   useEffect(() => {
-    void fetchPage(1, false)
-  }, [fetchPage])
+    let cancelled = false
+
+    ;(async () => {
+      try {
+        const result = await fetchTrendingPage(1)
+
+        if (!cancelled) {
+          setTotalCount(result.totalCount)
+          setDevelopers(result.developers)
+          setPage(1)
+          setLoadedPage(1)
+          setError(null)
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(
+            getGithubErrorMessage(
+              loadError,
+              'Não foi possível carregar os desenvolvedores em alta.',
+            ),
+          )
+          setLoadedPage(1)
+        }
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [fetchTrendingPage])
 
   const hasMore = developers.length < totalCount
 
@@ -68,8 +72,30 @@ export function useTrendingDevelopersList(): UseTrendingDevelopersListResult {
       return
     }
 
-    void fetchPage(page + 1, true)
-  }, [fetchPage, hasMore, isLoading, isLoadingMore, page])
+    const nextPage = page + 1
+
+    ;(async () => {
+      setIsLoadingMore(true)
+      setError(null)
+
+      try {
+        const result = await fetchTrendingPage(nextPage)
+
+        setTotalCount(result.totalCount)
+        setDevelopers((current) => [...current, ...result.developers])
+        setPage(nextPage)
+      } catch (loadError) {
+        setError(
+          getGithubErrorMessage(
+            loadError,
+            'Não foi possível carregar os desenvolvedores em alta.',
+          ),
+        )
+      } finally {
+        setIsLoadingMore(false)
+      }
+    })()
+  }, [fetchTrendingPage, hasMore, isLoading, isLoadingMore, page])
 
   return {
     developers,

@@ -28,32 +28,28 @@ export function useGithubRepositorySearch(
   const { ownerLogin, perPage = 10, sort = 'stars' } = options
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebouncedValue(query.trim(), SEARCH_DEBOUNCE_MS)
+  const hasActiveSearch = debouncedQuery.length >= 2
+  const [loadedQuery, setLoadedQuery] = useState('')
   const [results, setResults] = useState<GitHubRepoSummaryDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
-  const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const hasActiveSearch = debouncedQuery.length >= 2
+  const hasCurrentResults = hasActiveSearch && loadedQuery === debouncedQuery
+  const isSearching = hasActiveSearch && loadedQuery !== debouncedQuery
 
   useEffect(() => {
     if (!hasActiveSearch) {
-      setResults([])
-      setTotalCount(0)
-      setError(null)
-      setIsSearching(false)
       return
     }
 
     const controller = new AbortController()
+    const queryToSearch = debouncedQuery
 
-    const search = async () => {
-      setIsSearching(true)
-      setError(null)
-
+    ;(async () => {
       try {
         const useCase = makeSearchGitHubRepositoriesUseCase()
         const result = await useCase.execute({
-          query: debouncedQuery || '*',
+          query: queryToSearch || '*',
           ownerLogin,
           perPage,
           sort,
@@ -62,6 +58,8 @@ export function useGithubRepositorySearch(
         if (!controller.signal.aborted) {
           setResults(result.repositories)
           setTotalCount(result.totalCount)
+          setError(null)
+          setLoadedQuery(queryToSearch)
         }
       } catch (searchError) {
         if (!controller.signal.aborted) {
@@ -73,15 +71,10 @@ export function useGithubRepositorySearch(
           )
           setResults([])
           setTotalCount(0)
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsSearching(false)
+          setLoadedQuery(queryToSearch)
         }
       }
-    }
-
-    void search()
+    })()
 
     return () => controller.abort()
   }, [debouncedQuery, hasActiveSearch, ownerLogin, perPage, sort])
@@ -89,10 +82,10 @@ export function useGithubRepositorySearch(
   return {
     query,
     setQuery,
-    results,
-    totalCount,
+    results: hasCurrentResults ? results : [],
+    totalCount: hasCurrentResults ? totalCount : 0,
     isSearching,
-    error,
+    error: hasCurrentResults ? error : null,
     hasActiveSearch,
   }
 }

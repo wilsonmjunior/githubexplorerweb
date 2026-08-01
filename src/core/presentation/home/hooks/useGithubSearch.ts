@@ -19,36 +19,36 @@ const SEARCH_DEBOUNCE_MS = 400
 export function useGithubSearch(): UseGithubSearchResult {
   const [query, setQuery] = useState('')
   const debouncedQuery = useDebouncedValue(query.trim(), SEARCH_DEBOUNCE_MS)
+  const hasActiveSearch = debouncedQuery.length >= 2
+  const [loadedQuery, setLoadedQuery] = useState('')
   const [results, setResults] = useState<GitHubUserDto[]>([])
   const [totalCount, setTotalCount] = useState(0)
-  const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const hasCurrentResults = hasActiveSearch && loadedQuery === debouncedQuery
+  const isSearching = hasActiveSearch && loadedQuery !== debouncedQuery
+
   useEffect(() => {
-    if (debouncedQuery.length < 2) {
-      setResults([])
-      setTotalCount(0)
-      setError(null)
-      setIsSearching(false)
+    if (!hasActiveSearch) {
       return
     }
 
     const controller = new AbortController()
+    const queryToSearch = debouncedQuery
 
-    const search = async () => {
-      setIsSearching(true)
-      setError(null)
-
+    ;(async () => {
       try {
         const useCase = makeSearchGitHubUsersUseCase()
         const result = await useCase.execute({
-          query: debouncedQuery,
+          query: queryToSearch,
           perPage: 10,
         })
 
         if (!controller.signal.aborted) {
           setResults(result.users)
           setTotalCount(result.totalCount)
+          setError(null)
+          setLoadedQuery(queryToSearch)
         }
       } catch (searchError) {
         if (!controller.signal.aborted) {
@@ -60,26 +60,21 @@ export function useGithubSearch(): UseGithubSearchResult {
           )
           setResults([])
           setTotalCount(0)
-        }
-      } finally {
-        if (!controller.signal.aborted) {
-          setIsSearching(false)
+          setLoadedQuery(queryToSearch)
         }
       }
-    }
-
-    void search()
+    })()
 
     return () => controller.abort()
-  }, [debouncedQuery])
+  }, [debouncedQuery, hasActiveSearch])
 
   return {
     query,
     setQuery,
-    results,
-    totalCount,
+    results: hasCurrentResults ? results : [],
+    totalCount: hasCurrentResults ? totalCount : 0,
     isSearching,
-    error,
-    hasActiveSearch: debouncedQuery.length >= 2,
+    error: hasCurrentResults ? error : null,
+    hasActiveSearch,
   }
 }

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { GitHubRepoSummaryDto, GitHubUserDto } from '@/core/domain/github'
 import {
@@ -100,13 +100,12 @@ export function useGithubProfile(): UseGithubProfileResult {
   const [error, setError] = useState<string | null>(null)
 
   const debouncedSearch = useDebouncedValue(searchQuery.trim(), SEARCH_DEBOUNCE_MS)
-  const sortByRef = useRef(sortBy)
-  sortByRef.current = sortBy
 
   const isSearchMode =
     debouncedSearch.length >= 2 ||
     typeFilter !== 'all' ||
     languageFilter !== 'all'
+  const searchSortBy = isSearchMode ? sortBy : null
 
   const availableLanguages = useMemo(() => {
     const languages = new Set<string>()
@@ -125,7 +124,11 @@ export function useGithubProfile(): UseGithubProfileResult {
   }, [isSearchMode, repositories, sortBy])
 
   const fetchRepositories = useCallback(
-    async (targetPage: number, append: boolean) => {
+    async (
+      targetPage: number,
+      append: boolean,
+      sort: ProfileRepoSortOption,
+    ) => {
       if (!login) {
         return
       }
@@ -143,7 +146,7 @@ export function useGithubProfile(): UseGithubProfileResult {
           ownerLogin: login,
           perPage: PAGE_SIZE,
           page: targetPage,
-          sort: sortByRef.current,
+          sort,
         })
 
         setRepositories((current) =>
@@ -223,7 +226,7 @@ export function useGithubProfile(): UseGithubProfileResult {
       setPage(1)
 
       try {
-        await fetchRepositories(1, false)
+        await fetchRepositories(1, false, sortBy)
       } catch (reposError) {
         if (!controller.signal.aborted) {
           setError(
@@ -250,7 +253,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     isSearchMode,
     languageFilter,
     login,
-    isSearchMode ? sortBy : null,
+    searchSortBy,
     typeFilter,
     user,
   ])
@@ -265,7 +268,7 @@ export function useGithubProfile(): UseGithubProfileResult {
 
     try {
       const nextPage = page + 1
-      await fetchRepositories(nextPage, true)
+      await fetchRepositories(nextPage, true, sortBy)
       setPage(nextPage)
     } catch (loadMoreError) {
       setError(
@@ -277,7 +280,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     } finally {
       setIsLoadingMore(false)
     }
-  }, [fetchRepositories, hasMore, isLoadingMore, login, page])
+  }, [fetchRepositories, hasMore, isLoadingMore, login, page, sortBy])
 
   return {
     user,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type {
   GetGitHubRepositoryDetailsOutputDto,
@@ -14,39 +14,50 @@ type UseGithubRepositoryResult = {
 
 export function useGithubRepository(): UseGithubRepositoryResult {
   const { owner = '', repo = '' } = useParams()
+  const repositoryKey = `${owner}/${repo}`
+  const [loadedKey, setLoadedKey] = useState('')
   const [details, setDetails] =
     useState<GetGitHubRepositoryDetailsOutputDto | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const loadRepository = useCallback(async () => {
+  const isLoading = Boolean(owner && repo && loadedKey !== repositoryKey)
+
+  useEffect(() => {
     if (!owner || !repo) {
       return
     }
 
-    setIsLoading(true)
-    setError(null)
+    let cancelled = false
+    const key = repositoryKey
 
-    try {
-      const useCase = makeGetGitHubRepositoryDetailsUseCase()
-      const result = await useCase.execute({ owner, name: repo })
-      setDetails(result)
-    } catch (loadError) {
-      setError(
-        getGithubErrorMessage(
-          loadError,
-          'Não foi possível carregar o repositório.',
-        ),
-      )
-      setDetails(null)
-    } finally {
-      setIsLoading(false)
+    ;(async () => {
+      try {
+        const useCase = makeGetGitHubRepositoryDetailsUseCase()
+        const result = await useCase.execute({ owner, name: repo })
+
+        if (!cancelled) {
+          setDetails(result)
+          setError(null)
+          setLoadedKey(key)
+        }
+      } catch (loadError) {
+        if (!cancelled) {
+          setError(
+            getGithubErrorMessage(
+              loadError,
+              'Não foi possível carregar o repositório.',
+            ),
+          )
+          setDetails(null)
+          setLoadedKey(key)
+        }
+      }
+    })()
+
+    return () => {
+      cancelled = true
     }
-  }, [owner, repo])
-
-  useEffect(() => {
-    void loadRepository()
-  }, [loadRepository])
+  }, [owner, repo, repositoryKey])
 
   return { details, isLoading, error }
 }
