@@ -1,5 +1,7 @@
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
-import { RepositoryListCard } from '@/core/presentation/profile/components/RepositoryListCard'
+import { EmptyState } from '@/shared/components/EmptyState'
+import { LoadMoreButton } from '@/shared/components/LoadMoreButton'
+import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
 import './AccountRepositoriesSection.css'
 
@@ -45,9 +47,7 @@ export function AccountRepositoriesSection({
       )}
 
       {repositories.length === 0 && !isLoading ? (
-        <p className="account-repositories__empty">
-          Nenhum repositório encontrado.
-        </p>
+        <EmptyState message="Nenhum repositório encontrado." />
       ) : null}
 
       {isLoadingMore ? (
@@ -58,14 +58,11 @@ export function AccountRepositoriesSection({
 
       {hasMore ? (
         <div className="account-repositories__load-more">
-          <button
-            type="button"
-            className="account-repositories__load-more-btn"
+          <LoadMoreButton
             onClick={onLoadMore}
-            disabled={isLoadingMore}
-          >
-            {isLoadingMore ? 'Carregando...' : 'Carregar mais repositórios'}
-          </button>
+            isLoading={isLoadingMore}
+            label="Carregar mais repositórios"
+          />
         </div>
       ) : null}
     </section>

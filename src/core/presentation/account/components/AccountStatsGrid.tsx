@@ -1,19 +1,13 @@
 import type { AuthenticatedGitHubUserDto } from '@/core/domain/github'
+import { StatsGrid } from '@/shared/components/StatsGrid'
 import { formatCompactNumber } from '@/shared/utils/format-number'
-import './AccountStatsGrid.css'
 
 type AccountStatsGridProps = {
   user: AuthenticatedGitHubUserDto
 }
 
-type StatItem = {
-  label: string
-  value: string
-  icon: string
-}
-
 export function AccountStatsGrid({ user }: AccountStatsGridProps) {
-  const stats: StatItem[] = [
+  const stats = [
     {
       label: 'Repositórios públicos',
       value: formatCompactNumber(user.publicRepos),
@@ -37,14 +31,11 @@ export function AccountStatsGrid({ user }: AccountStatsGridProps) {
   ]
 
   return (
-    <section className="account-stats-grid" aria-label="Estatísticas da conta">
-      {stats.map((stat) => (
-        <article key={stat.label} className="account-stats-grid__item glass-card">
-          <i className={`bi ${stat.icon} account-stats-grid__icon`} aria-hidden="true" />
-          <span className="account-stats-grid__value">{stat.value}</span>
-          <span className="account-stats-grid__label">{stat.label}</span>
-        </article>
-      ))}
-    </section>
+    <StatsGrid
+      items={stats}
+      variant="glass"
+      columns={4}
+      ariaLabel="Estatísticas da conta"
+    />
   )
 }
