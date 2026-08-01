@@ -1,4 +1,5 @@
 import type { GitHubRepositoryDto } from '@/core/domain/github'
+import { GitHubExternalLink } from '@/shared/components/GitHubExternalLink'
 import './RepositoryHeader.css'
 
 type RepositoryHeaderProps = {
@@ -13,21 +14,16 @@ export function RepositoryHeader({ repository }: RepositoryHeaderProps) {
           <i className="bi bi-terminal repository-header__icon" aria-hidden="true" />
           <h1 className="repository-header__title">{repository.name}</h1>
           <span className="repository-header__badge">
-            {repository.isPrivate ? 'Private' : 'Public'}
+            {repository.isPrivate ? 'Privado' : 'Público'}
           </span>
         </div>
 
         <div className="repository-header__actions">
-          <a
+          <GitHubExternalLink
             href={repository.htmlUrl}
-            target="_blank"
-            rel="noreferrer"
+            variant="primary"
             className="repository-header__github-btn"
-          >
-            <i className="bi bi-box-arrow-up-right" aria-hidden="true" />
-            <span className="d-none d-sm-inline">View on GitHub</span>
-            <span className="d-sm-none">GitHub</span>
-          </a>
+          />
           <button
             type="button"
             className="repository-header__more-btn"

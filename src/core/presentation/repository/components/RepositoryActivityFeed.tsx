@@ -1,4 +1,5 @@
 import type { RepositoryActivityDto } from '@/core/domain/github'
+import { REPOSITORY_ACTIVITY_ICONS } from '@/shared/constants/repository-activity'
 import { formatRelativeTime } from '@/shared/utils/format-relative-time'
 import './RepositoryActivityFeed.css'
 
@@ -6,19 +7,13 @@ type RepositoryActivityFeedProps = {
   activities: RepositoryActivityDto[]
 }
 
-const ICONS = {
-  commit: 'bi-git',
-  merge: 'bi-diagram-3',
-  issue: 'bi-exclamation-circle',
-} as const
-
 export function RepositoryActivityFeed({ activities }: RepositoryActivityFeedProps) {
   return (
     <section className="repository-activity glass-card">
       <div className="repository-activity__header">
-        <h2 className="repository-activity__title">Recent Activity</h2>
+        <h2 className="repository-activity__title">Atividade recente</h2>
         <button type="button" className="repository-activity__view-all">
-          View All
+          Ver tudo
         </button>
       </div>
 
@@ -26,7 +21,7 @@ export function RepositoryActivityFeed({ activities }: RepositoryActivityFeedPro
         {activities.map((activity) => (
           <article key={activity.id} className="repository-activity__item">
             <i
-              className={`bi ${ICONS[activity.type]} repository-activity__icon repository-activity__icon--${activity.tagVariant}`}
+              className={`bi ${REPOSITORY_ACTIVITY_ICONS[activity.type]} repository-activity__icon repository-activity__icon--${activity.tagVariant}`}
               aria-hidden="true"
             />
             <div className="repository-activity__content">

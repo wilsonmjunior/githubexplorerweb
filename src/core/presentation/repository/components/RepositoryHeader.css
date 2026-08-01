@@ -46,16 +46,12 @@
   gap: 0.5rem;
 }
 
-.repository-header__github-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
+.repository-header__github-btn.github-external-link {
+  border: none;
   border-radius: 0.75rem;
   background: var(--ge-primary);
   color: var(--ge-on-primary);
   font-weight: 700;
-  text-decoration: none;
 }
 
 .repository-header__more-btn {

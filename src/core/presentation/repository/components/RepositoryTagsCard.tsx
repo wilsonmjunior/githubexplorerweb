@@ -14,7 +14,7 @@ export function RepositoryTagsCard({ repository }: RepositoryTagsCardProps) {
 
   return (
     <section className="repository-tags glass-card">
-      <h2 className="repository-tags__title">Quick Tags</h2>
+      <h2 className="repository-tags__title">Tags rápidas</h2>
       <div className="repository-tags__list">
         {tags.map((tag) => (
           <span key={tag} className="repository-tags__tag">

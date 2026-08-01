@@ -1,6 +1,8 @@
 import type { GitHubRepositoryDto } from '@/core/domain/github'
 import './RepositoryMobileHero.css'
 
+const ACTIVE_TAG = 'Ativo'
+
 type RepositoryMobileHeroProps = {
   repository: GitHubRepositoryDto
 }
@@ -9,7 +11,7 @@ export function RepositoryMobileHero({ repository }: RepositoryMobileHeroProps) 
   const tags = [
     repository.defaultBranch,
     repository.license,
-    repository.pushedAt ? 'Active' : null,
+    repository.pushedAt ? ACTIVE_TAG : null,
   ].filter((tag): tag is string => Boolean(tag))
 
   return (
@@ -33,7 +35,7 @@ export function RepositoryMobileHero({ repository }: RepositoryMobileHeroProps) 
             <span
               key={tag}
               className={`repository-mobile-hero__tag ${
-                index === tags.length - 1 && tag === 'Active'
+                index === tags.length - 1 && tag === ACTIVE_TAG
                   ? 'repository-mobile-hero__tag--active'
                   : ''
               }`}

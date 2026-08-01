@@ -13,7 +13,7 @@ export function RepositoryMaintainersCard({
 
   return (
     <section className="repository-maintainers glass-card">
-      <h2 className="repository-maintainers__title">Maintainers</h2>
+      <h2 className="repository-maintainers__title">Mantenedores</h2>
       <div className="repository-maintainers__avatars">
         {visibleContributors.map((contributor) => (
           <a
