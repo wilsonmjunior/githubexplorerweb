@@ -140,7 +140,7 @@ export function ProfileRepositoriesSection({
       ) : null}
 
       {isLoadingMore ? (
-        <div className="profile-repositories__list">
+        <div className="profile-repositories__load-more-skeleton">
           <RepositoryListSkeleton count={2} variant="mobile" />
         </div>
       ) : null}

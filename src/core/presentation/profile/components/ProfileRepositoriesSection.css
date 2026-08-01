@@ -120,6 +120,11 @@
   color: var(--ge-on-surface-variant);
 }
 
+.profile-repositories__load-more-skeleton {
+  margin-top: 1rem;
+  padding: 0 1rem;
+}
+
 .profile-repositories__load-more {
   display: flex;
   justify-content: center;
@@ -152,6 +157,13 @@
     max-width: var(--ge-container-max);
     margin: 0 auto;
     padding: 1.5rem;
+  }
+
+  .profile-repositories__load-more-skeleton {
+    max-width: var(--ge-container-max);
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 1.5rem;
   }
 }
 

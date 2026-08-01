@@ -112,7 +112,9 @@ export function ProfileRepositoriesDesktop({
       </div>
 
       {isLoadingMore ? (
-        <RepositoryListSkeleton count={3} variant="mobile" />
+        <div className="profile-repositories-desktop__load-more-skeleton">
+          <RepositoryListSkeleton count={3} variant="mobile" />
+        </div>
       ) : null}
 
       {hasMore ? (

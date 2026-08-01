@@ -75,6 +75,10 @@
   display: contents;
 }
 
+.profile-repositories-desktop__load-more-skeleton {
+  margin-top: 1rem;
+}
+
 .profile-repositories-desktop__load-more {
   display: flex;
   justify-content: center;
