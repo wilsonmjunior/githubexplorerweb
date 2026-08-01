@@ -1,0 +1,83 @@
+.repository-page {
+  background: var(--ge-background);
+  color: var(--ge-on-surface);
+}
+
+.repository-page__container {
+  max-width: var(--ge-container-max);
+  padding-top: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+.repository-page__mobile {
+  padding-bottom: 1rem;
+}
+
+.repository-page__state,
+.repository-page__error {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.repository-page__error {
+  color: #ffb4ab;
+}
+
+.repository-page__bento {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.repository-page__secondary {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.repository-page__mobile-github {
+  padding: 0 1rem 1.5rem;
+}
+
+.repository-page__mobile-github-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--ge-primary-container);
+  color: var(--ge-on-primary);
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.repository-page__mobile-github-btn:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 768px) {
+  .repository-page__bento {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .repository-page__stats {
+    grid-column: span 4;
+  }
+
+  .repository-page__content {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .repository-page__secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

@@ -1,0 +1,86 @@
+.repository-header {
+  margin-bottom: 2rem;
+}
+
+.repository-header__top {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.repository-header__title-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.repository-header__icon {
+  color: var(--ge-primary);
+  font-size: 1.75rem;
+}
+
+.repository-header__title {
+  font-size: clamp(1.5rem, 4vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  word-break: break-word;
+}
+
+.repository-header__badge {
+  padding: 0.25rem 0.75rem;
+  border: 1px solid var(--ge-outline-variant);
+  border-radius: 999px;
+  background: var(--ge-surface-container-highest);
+  color: var(--ge-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.repository-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.repository-header__github-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  background: var(--ge-primary);
+  color: var(--ge-on-primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.repository-header__more-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: none;
+  border-radius: 0.75rem;
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--ge-on-surface);
+}
+
+.repository-header__description {
+  max-width: 48rem;
+  color: var(--ge-on-surface-variant);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .repository-header__top {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

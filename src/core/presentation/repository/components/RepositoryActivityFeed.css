@@ -1,0 +1,131 @@
+.repository-activity {
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.repository-activity__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--ge-outline-variant);
+  background: var(--ge-surface-container);
+}
+
+.repository-activity__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.repository-activity__view-all {
+  border: none;
+  background: transparent;
+  color: var(--ge-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.repository-activity__list {
+  display: flex;
+  flex-direction: column;
+}
+
+.repository-activity__item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--ge-outline-variant);
+  transition: background-color 0.15s ease;
+}
+
+.repository-activity__item:last-child {
+  border-bottom: none;
+}
+
+.repository-activity__item:hover {
+  background: var(--ge-surface-container-low);
+}
+
+.repository-activity__icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+}
+
+.repository-activity__icon--primary {
+  color: var(--ge-primary);
+}
+
+.repository-activity__icon--tertiary {
+  color: var(--ge-tertiary);
+}
+
+.repository-activity__icon--error {
+  color: #ffb4ab;
+}
+
+.repository-activity__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.repository-activity__row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.repository-activity__item-title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.repository-activity__time {
+  color: var(--ge-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.repository-activity__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ge-on-surface-variant);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+}
+
+.repository-activity__tag {
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+  background: var(--ge-surface-container-highest);
+}
+
+.repository-activity__tag--primary {
+  color: var(--ge-primary);
+}
+
+.repository-activity__tag--tertiary {
+  color: var(--ge-tertiary);
+}
+
+.repository-activity__tag--error {
+  background: #93000a;
+  color: #ffdad6;
+}
+
+@media (min-width: 768px) {
+  .repository-activity__row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

@@ -1,0 +1,46 @@
+.repository-maintainers {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.repository-maintainers__title {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.repository-maintainers__avatars {
+  display: flex;
+  align-items: center;
+}
+
+.repository-maintainers__avatars a,
+.repository-maintainers__more {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-left: -0.5rem;
+  border: 2px solid var(--ge-surface);
+  border-radius: 50%;
+}
+
+.repository-maintainers__avatars a:first-child,
+.repository-maintainers__more:first-child {
+  margin-left: 0;
+}
+
+.repository-maintainers__avatars img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.repository-maintainers__more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ge-surface-container-highest);
+  color: var(--ge-on-surface-variant);
+  font-size: 0.75rem;
+  font-weight: 600;
+}

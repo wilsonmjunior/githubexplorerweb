@@ -1,0 +1,29 @@
+.repository-tags {
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+}
+
+.repository-tags__title {
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.repository-tags__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.repository-tags__tag {
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  background: var(--ge-surface-container-highest);
+  color: var(--ge-on-surface-variant);
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+}
+
+.repository-tags__tag:first-child {
+  color: var(--ge-primary);
+}

@@ -1,0 +1,28 @@
+.repository-mobile-header {
+  background: var(--ge-surface);
+  border-bottom: 1px solid var(--ge-outline-variant);
+  z-index: 1030;
+}
+
+.repository-mobile-header__container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--ge-container-max);
+  margin: 0 auto;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.repository-mobile-header__brand {
+  color: var(--ge-primary);
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.repository-mobile-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
