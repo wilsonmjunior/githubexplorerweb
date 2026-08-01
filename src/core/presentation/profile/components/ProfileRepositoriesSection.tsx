@@ -3,7 +3,9 @@ import type {
   ProfileRepoSortOption,
   ProfileRepoTypeFilter,
 } from '@/core/presentation/profile/hooks/useGithubProfile'
-import { RepositoryListCard } from '@/core/presentation/profile/components/RepositoryListCard'
+import { EmptyState } from '@/shared/components/EmptyState'
+import { LoadMoreButton } from '@/shared/components/LoadMoreButton'
+import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
 import './ProfileRepositoriesSection.css'
 
@@ -25,15 +27,15 @@ type ProfileRepositoriesSectionProps = {
 }
 
 const TYPE_OPTIONS: Array<{ value: ProfileRepoTypeFilter; label: string }> = [
-  { value: 'all', label: 'TYPE: ALL' },
-  { value: 'sources', label: 'TYPE: SOURCES' },
-  { value: 'forks', label: 'TYPE: FORKS' },
+  { value: 'all', label: 'TIPO: TODOS' },
+  { value: 'sources', label: 'TIPO: ORIGINAIS' },
+  { value: 'forks', label: 'TIPO: FORKS' },
 ]
 
 const SORT_OPTIONS: Array<{ value: ProfileRepoSortOption; label: string }> = [
-  { value: 'stars', label: 'Stars' },
+  { value: 'stars', label: 'Estrelas' },
   { value: 'forks', label: 'Forks' },
-  { value: 'updated', label: 'Updated' },
+  { value: 'updated', label: 'Atualizado' },
 ]
 
 export function ProfileRepositoriesSection({
@@ -72,11 +74,11 @@ export function ProfileRepositoriesSection({
   }
 
   const typeLabel =
-    TYPE_OPTIONS.find((option) => option.value === typeFilter)?.label ?? 'TYPE: ALL'
+    TYPE_OPTIONS.find((option) => option.value === typeFilter)?.label ?? 'TIPO: TODOS'
   const languageLabel =
-    languageFilter === 'all' ? 'LANGUAGE: ALL' : `LANGUAGE: ${languageFilter.toUpperCase()}`
+    languageFilter === 'all' ? 'LINGUAGEM: TODAS' : `LINGUAGEM: ${languageFilter.toUpperCase()}`
   const sortLabel =
-    SORT_OPTIONS.find((option) => option.value === sortBy)?.label ?? 'Stars'
+    SORT_OPTIONS.find((option) => option.value === sortBy)?.label ?? 'Estrelas'
 
   return (
     <section className="profile-repositories">
@@ -87,7 +89,7 @@ export function ProfileRepositoriesSection({
             type="search"
             value={searchQuery}
             onChange={(event) => onSearchChange(event.target.value)}
-            placeholder="Find a repository..."
+            placeholder="Encontrar um repositório..."
             aria-label="Buscar repositório"
           />
           {isSearching ? (
@@ -117,7 +119,7 @@ export function ProfileRepositoriesSection({
             </button>
           </div>
           <button type="button" className="profile-repositories__sort" onClick={nextSort}>
-            SORT: {sortLabel.toUpperCase()}{' '}
+            ORDENAR: {sortLabel.toUpperCase()}{' '}
             <i className="bi bi-chevron-down" aria-hidden="true" />
           </button>
         </div>
@@ -134,9 +136,7 @@ export function ProfileRepositoriesSection({
       </div>
 
       {repositories.length === 0 && !isSearching ? (
-        <p className="profile-repositories__empty">
-          Nenhum repositório encontrado.
-        </p>
+        <EmptyState message="Nenhum repositório encontrado." />
       ) : null}
 
       {isLoadingMore ? (
@@ -147,14 +147,11 @@ export function ProfileRepositoriesSection({
 
       {hasMore ? (
         <div className="profile-repositories__load-more">
-          <button
-            type="button"
+          <LoadMoreButton
             onClick={onLoadMore}
-            disabled={isLoadingMore}
-            className="profile-repositories__load-more-btn"
-          >
-            {isLoadingMore ? 'Carregando...' : 'Load more repositories'}
-          </button>
+            isLoading={isLoadingMore}
+            label="Carregar mais repositórios"
+          />
         </div>
       ) : null}
     </section>

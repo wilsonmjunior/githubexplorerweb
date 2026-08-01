@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
 import type { ProfileRepoSortOption } from '@/core/presentation/profile/hooks/useGithubProfile'
-import { RepositoryListCard } from '@/core/presentation/profile/components/RepositoryListCard'
+import { LoadMoreButton } from '@/shared/components/LoadMoreButton'
+import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
 import './ProfileRepositoriesDesktop.css'
 
@@ -17,9 +18,9 @@ type ProfileRepositoriesDesktopProps = {
 }
 
 const SORT_LABELS: Record<ProfileRepoSortOption, string> = {
-  stars: 'Stars',
+  stars: 'Estrelas',
   forks: 'Forks',
-  updated: 'Updated',
+  updated: 'Atualizado',
 }
 
 export function ProfileRepositoriesDesktop({
@@ -58,7 +59,7 @@ export function ProfileRepositoriesDesktop({
     <section className="profile-repositories-desktop">
       <div className="profile-repositories-desktop__header">
         <h2 className="profile-repositories-desktop__title">
-          Repositories{' '}
+          Repositórios{' '}
           <span className="profile-repositories-desktop__count">
             ({totalCount})
           </span>
@@ -70,7 +71,7 @@ export function ProfileRepositoriesDesktop({
             className="profile-repositories-desktop__sort-btn"
             onClick={() => setIsSortOpen((open) => !open)}
           >
-            Sort by: <strong>{SORT_LABELS[sortBy]}</strong>
+            Ordenar por: <strong>{SORT_LABELS[sortBy]}</strong>
             <i className="bi bi-chevron-down" aria-hidden="true" />
           </button>
 
@@ -116,14 +117,11 @@ export function ProfileRepositoriesDesktop({
 
       {hasMore ? (
         <div className="profile-repositories-desktop__load-more">
-          <button
-            type="button"
+          <LoadMoreButton
             onClick={onLoadMore}
-            disabled={isLoadingMore}
-            className="profile-repositories-desktop__load-more-btn"
-          >
-            {isLoadingMore ? 'Carregando...' : 'Load more repositories'}
-          </button>
+            isLoading={isLoadingMore}
+            label="Carregar mais repositórios"
+          />
         </div>
       ) : null}
     </section>
