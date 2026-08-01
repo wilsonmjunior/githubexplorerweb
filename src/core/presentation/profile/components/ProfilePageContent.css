@@ -1,0 +1,25 @@
+.profile-page__desktop {
+  max-width: var(--ge-container-max);
+}
+
+.profile-page__grid {
+  display: grid;
+  grid-template-columns: minmax(220px, 3fr) 9fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.profile-page__state,
+.profile-page__error {
+  display: flex;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.profile-page__error {
+  color: #ffb4ab;
+}
+
+.profile-page__hero {
+  max-width: var(--ge-container-max);
+}
