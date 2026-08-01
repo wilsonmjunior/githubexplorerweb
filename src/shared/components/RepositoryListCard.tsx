@@ -24,7 +24,7 @@ export function RepositoryListCard({
       <div className="repository-list-card__header">
         <span className="repository-list-card__name">{repository.name}</span>
         <span className="repository-list-card__badge">
-          {repository.isPrivate ? 'PRIVATE' : 'PUBLIC'}
+          {repository.isPrivate ? 'PRIVADO' : 'PÚBLICO'}
         </span>
       </div>
 
@@ -56,7 +56,7 @@ export function RepositoryListCard({
         ) : null}
         {repository.pushedAt ? (
           <span className="repository-list-card__updated">
-            Updated {formatRelativeTime(repository.pushedAt)}
+            Atualizado {formatRelativeTime(repository.pushedAt)}
           </span>
         ) : null}
       </div>

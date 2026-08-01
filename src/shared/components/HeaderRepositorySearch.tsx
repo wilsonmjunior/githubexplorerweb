@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
-import { useGithubRepositorySearch } from '@/core/presentation/home/hooks/useGithubRepositorySearch'
+import { useGithubRepositorySearch } from '@/shared/hooks/useGithubRepositorySearch'
 import { repositoryPath } from '@/shared/constants/routes'
 import './HeaderRepositorySearch.css'
 
@@ -65,7 +65,7 @@ export function HeaderRepositorySearch({ className }: HeaderRepositorySearchProp
         }}
         onFocus={() => setIsOpen(true)}
         onKeyDown={handleKeyDown}
-        placeholder="Search repositories..."
+        placeholder="Buscar repositórios..."
         aria-label="Buscar repositórios"
         aria-expanded={showDropdown}
         aria-haspopup="listbox"
