@@ -1,5 +1,5 @@
 import type { GitHubRepoSummaryDto, GitHubUserDto } from '@/core/domain/github'
-import { useGithubRepositorySearch } from '@/core/presentation/home/hooks/useGithubRepositorySearch'
+import { useGithubRepositorySearch } from '@/shared/hooks/useGithubRepositorySearch'
 import { useGithubSearch } from '@/core/presentation/home/hooks/useGithubSearch'
 import { useIsMobileViewport } from '@/shared/hooks/useIsMobileViewport'
 
