@@ -1,5 +1,6 @@
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -7,11 +8,15 @@ import {
   type ReactNode,
 } from 'react'
 import type { GitHubUserDto } from '@/core/domain/github'
-import { makeGetAuthenticatedGitHubUserUseCase } from '@/core/composition/use-cases/make-github-usecases'
+import {
+  makeGetAuthenticatedGitHubUserUseCase,
+  makeGetAuthenticatedUserFollowingUseCase,
+} from '@/core/composition/use-cases/make-github-usecases'
 
 type GithubAuthContextValue = {
   user: GitHubUserDto | null
   isLoading: boolean
+  isFollowing: (login: string) => boolean
 }
 
 const GithubAuthContext = createContext<GithubAuthContextValue | null>(null)
@@ -22,22 +27,42 @@ type GithubAuthProviderProps = {
 
 export function GithubAuthProvider({ children }: GithubAuthProviderProps) {
   const [user, setUser] = useState<GitHubUserDto | null>(null)
+  const [followingLogins, setFollowingLogins] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  )
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     let isMounted = true
 
-    async function loadAuthenticatedUser() {
+    async function loadAuthenticatedSession() {
       try {
-        const useCase = makeGetAuthenticatedGitHubUserUseCase()
-        const authenticatedUser = await useCase.execute()
+        const userUseCase = makeGetAuthenticatedGitHubUserUseCase()
+        const authenticatedUser = await userUseCase.execute()
+
+        if (!isMounted) {
+          return
+        }
+
+        setUser(authenticatedUser)
+
+        if (!authenticatedUser) {
+          setFollowingLogins(new Set())
+          return
+        }
+
+        const followingUseCase = makeGetAuthenticatedUserFollowingUseCase()
+        const following = await followingUseCase.execute()
 
         if (isMounted) {
-          setUser(authenticatedUser)
+          setFollowingLogins(
+            new Set(following.logins.map((login) => login.toLowerCase())),
+          )
         }
       } catch {
         if (isMounted) {
           setUser(null)
+          setFollowingLogins(new Set())
         }
       } finally {
         if (isMounted) {
@@ -46,19 +71,35 @@ export function GithubAuthProvider({ children }: GithubAuthProviderProps) {
       }
     }
 
-    void loadAuthenticatedUser()
+    void loadAuthenticatedSession()
 
     return () => {
       isMounted = false
     }
   }, [])
 
+  const isFollowing = useCallback(
+    (login: string) => {
+      if (!user) {
+        return false
+      }
+
+      if (user.login.toLowerCase() === login.toLowerCase()) {
+        return false
+      }
+
+      return followingLogins.has(login.toLowerCase())
+    },
+    [followingLogins, user],
+  )
+
   const value = useMemo(
     () => ({
       user,
       isLoading,
+      isFollowing,
     }),
-    [user, isLoading],
+    [user, isLoading, isFollowing],
   )
 
   return (
