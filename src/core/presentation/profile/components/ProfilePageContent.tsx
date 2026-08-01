@@ -1,5 +1,4 @@
 import Container from 'react-bootstrap/Container'
-import { BottomNav } from '@/core/presentation/home/components/BottomNav'
 import { HomeFooter } from '@/core/presentation/home/components/HomeFooter'
 import { HomeHeader } from '@/core/presentation/home/components/HomeHeader'
 import { ProfileHero } from '@/core/presentation/profile/components/ProfileHero'
@@ -104,8 +103,6 @@ export function ProfilePageContent() {
       </main>
 
       <HomeFooter />
-      <BottomNav />
-      <div className="bottom-nav-spacer d-md-none" aria-hidden="true" />
     </div>
   )
 }

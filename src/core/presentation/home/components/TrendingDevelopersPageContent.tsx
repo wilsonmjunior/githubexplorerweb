@@ -1,6 +1,5 @@
 import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom'
-import { BottomNav } from '@/core/presentation/home/components/BottomNav'
 import { DeveloperCard } from '@/core/presentation/home/components/DeveloperCard'
 import { DeveloperCompactCard } from '@/core/presentation/home/components/DeveloperCompactCard'
 import { HomeFooter } from '@/core/presentation/home/components/HomeFooter'
@@ -106,8 +105,6 @@ export function TrendingDevelopersPageContent() {
       </main>
 
       <HomeFooter />
-      <BottomNav />
-      <div className="bottom-nav-spacer d-md-none" aria-hidden="true" />
     </div>
   )
 }
