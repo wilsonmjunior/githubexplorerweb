@@ -1,0 +1,40 @@
+@import 'bootstrap/dist/css/bootstrap.min.css';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+:root,
+[data-bs-theme='light'],
+[data-bs-theme='dark'] {
+  --bs-primary: var(--ge-primary-container);
+  --bs-primary-rgb: 56, 189, 248;
+  --bs-body-bg: var(--ge-background);
+  --bs-body-color: var(--ge-on-surface);
+  --bs-emphasis-color: var(--ge-on-surface);
+  --bs-secondary-color: var(--ge-on-surface-variant);
+  --bs-border-color: var(--ge-outline-variant);
+  --bs-link-color: var(--ge-primary);
+  --bs-link-hover-color: var(--ge-primary-container);
+  --bs-font-sans-serif: var(--sans);
+  --bs-font-monospace: var(--mono);
+  --bs-border-radius: 0.5rem;
+}
+
+[data-bs-theme='dark'] {
+  --bs-body-bg: var(--ge-background);
+  --bs-body-color: var(--ge-on-surface);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid #1e293b;
+}
+
+@media (min-width: 768px) {
+  .glass-card {
+    backdrop-filter: blur(12px);
+  }
+}
+
+.search-glow:focus-within {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.15);
+}

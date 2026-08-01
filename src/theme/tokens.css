@@ -1,0 +1,36 @@
+:root {
+  --ge-background: #0b1326;
+  --ge-surface: #0b1326;
+  --ge-surface-container: #171f33;
+  --ge-surface-container-high: #222a3d;
+  --ge-surface-container-highest: #2d3449;
+  --ge-surface-container-low: #131b2e;
+  --ge-surface-container-lowest: #060e20;
+  --ge-surface-variant: #2d3449;
+  --ge-on-surface: #dae2fd;
+  --ge-on-surface-variant: #bdc8d1;
+  --ge-primary: #8ed5ff;
+  --ge-primary-container: #38bdf8;
+  --ge-on-primary: #00354a;
+  --ge-secondary: #bdc2ff;
+  --ge-secondary-container: #2f3aa3;
+  --ge-on-secondary-container: #a8afff;
+  --ge-tertiary: #ffc176;
+  --ge-outline: #87929a;
+  --ge-outline-variant: #3e484f;
+  --ge-container-max: 1280px;
+
+  --text: var(--ge-on-surface-variant);
+  --text-h: var(--ge-on-surface);
+  --bg: var(--ge-background);
+  --border: var(--ge-outline-variant);
+  --code-bg: var(--ge-surface-container-high);
+  --accent: var(--ge-primary);
+  --accent-bg: rgba(56, 189, 248, 0.1);
+  --accent-border: rgba(56, 189, 248, 0.5);
+  --social-bg: var(--ge-surface-container-low);
+
+  --sans: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+}
