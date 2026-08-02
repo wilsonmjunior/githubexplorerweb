@@ -24,8 +24,9 @@ Interface web para explorar desenvolvedores e repositórios do GitHub. Busque pe
 - **Home** — busca de desenvolvedores e repositórios, com resultados em tempo real
 - **Trending Developers** — lista paginada de desenvolvedores em alta (`/developers/trending`)
 - **Perfil** — página de usuário com bio, estatísticas, filtros e repositórios (`/users/:login`)
+- **Minha conta** — página do usuário autenticado com perfil, estatísticas, organizações e repositórios paginados (`/me`); requer `VITE_GITHUB_TOKEN`
 - **Repositório** — detalhes do repo com stats, linguagens, atividade e maintainers (`/repos/:owner/:repo`)
-- **Integração GitHub** — botão na navbar que abre o GitHub; com token configurado, exibe o avatar do usuário autenticado
+- **Integração GitHub** — botão na navbar que abre o GitHub; com token configurado, exibe o avatar do usuário autenticado e leva para `/me`
 - **Skeletons de carregamento** — estados de loading específicos por tela
 
 ## Stack
@@ -63,7 +64,7 @@ Crie um arquivo `.env` na raiz do projeto:
 VITE_GITHUB_TOKEN=seu_personal_access_token
 ```
 
-O token é opcional, mas recomendado: sem ele, a API do GitHub tem limite de 60 requisições/hora por IP. Com um [Personal Access Token](https://github.com/settings/tokens), o limite sobe para 5.000 req/h e o avatar do usuário autenticado aparece na navbar.
+O token é opcional, mas recomendado: sem ele, a API do GitHub tem limite de 60 requisições/hora por IP. Com um [Personal Access Token](https://github.com/settings/tokens), o limite sobe para 5.000 req/h, o avatar do usuário autenticado aparece na navbar e a página `/me` fica disponível.
 
 > **Atenção:** nunca commite o arquivo `.env` com tokens reais.
 
@@ -83,6 +84,7 @@ O token é opcional, mas recomendado: sem ele, a API do GitHub tem limite de 60 
 |------|-----------|
 | `/` | Home com busca e trending |
 | `/developers/trending` | Lista completa de trending developers |
+| `/me` | Conta autenticada (perfil, organizações e repositórios) |
 | `/users/:login` | Perfil do desenvolvedor |
 | `/repos/:owner/:repo` | Detalhes do repositório |
 
@@ -99,6 +101,7 @@ src/
 │   ├── infra/                  # Implementações (GitHub API client)
 │   ├── composition/            # Factories e wiring de dependências
 │   └── presentation/           # Componentes, hooks e UI por feature
+│       ├── account/
 │       ├── home/
 │       ├── profile/
 │       └── repository/
@@ -139,6 +142,8 @@ Cada feature em `presentation/` contém seus componentes, hooks e estilos. Os us
 - `GetUserRepositoriesUseCase`
 - `GetGitHubRepositoryDetailsUseCase`
 - `GetAuthenticatedGitHubUserUseCase`
+- `GetAuthenticatedGitHubUserDetailsUseCase`
+- `GetAuthenticatedUserFollowingUseCase`
 
 ## Alias de importação
 
