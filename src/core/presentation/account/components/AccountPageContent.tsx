@@ -5,6 +5,7 @@ import { AccountStatsGrid } from '@/core/presentation/account/components/Account
 import { useAuthenticatedGithubAccount } from '@/core/presentation/account/hooks/useAuthenticatedGithubAccount'
 import { AppFooter } from '@/shared/components/AppFooter'
 import { AppHeader } from '@/shared/components/AppHeader'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { PageLayout } from '@/shared/components/PageLayout'
 import { UserProfileCard } from '@/shared/components/UserProfileCard'
 import { AccountPageSkeleton } from '@/shared/components/skeletons/AccountPageSkeleton'
@@ -59,7 +60,7 @@ export function AccountPageContent() {
         ) : null}
 
         {error ? (
-          <p className="account-page__error">{error}</p>
+          <ErrorMessage message={error} className="account-page__error" />
         ) : null}
 
         {!isLoading && !isUnauthenticated && !error && user ? (

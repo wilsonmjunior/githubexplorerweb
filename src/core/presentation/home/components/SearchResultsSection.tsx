@@ -1,6 +1,7 @@
 import type { GitHubUserDto } from '@/core/domain/github'
 import { DeveloperCard } from '@/core/presentation/home/components/DeveloperCard'
 import { DeveloperCompactCard } from '@/core/presentation/home/components/DeveloperCompactCard'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { DeveloperListSkeleton } from '@/shared/components/skeletons/DeveloperListSkeleton'
 import { TrendingDevelopersPageSkeleton } from '@/shared/components/skeletons/TrendingDevelopersPageSkeleton'
 import './SearchResultsSection.css'
@@ -43,11 +44,16 @@ export function SearchResultsSection({
       ) : null}
 
       {error ? (
-        <p className="search-results__state search-results__error">{error}</p>
+        <ErrorMessage
+          message={error}
+          className="search-results__state search-results__error"
+        />
       ) : null}
 
       {!isSearching && !error && results.length === 0 ? (
-        <p className="search-results__state">Nenhum usuário encontrado.</p>
+        <p className="search-results__state" role="status">
+          Nenhum usuário encontrado.
+        </p>
       ) : null}
 
       {!isSearching && !error && results.length > 0 ? (

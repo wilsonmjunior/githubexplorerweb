@@ -14,6 +14,7 @@ export function PopularTags({ onTagClick }: PopularTagsProps) {
           type="button"
           className="popular-tags__tag"
           onClick={() => onTagClick(tag)}
+          aria-label={`Buscar usuários @${tag}`}
         >
           @{tag}
         </button>

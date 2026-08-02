@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { DeveloperCard } from '@/core/presentation/home/components/DeveloperCard'
 import { DeveloperCompactCard } from '@/core/presentation/home/components/DeveloperCompactCard'
 import { DeveloperFeaturedCard } from '@/core/presentation/home/components/DeveloperFeaturedCard'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { DeveloperListSkeleton } from '@/shared/components/skeletons/DeveloperListSkeleton'
 import { APP_ROUTES } from '@/shared/constants/routes'
 import './TrendingDevelopersSection.css'
@@ -35,9 +36,10 @@ export function TrendingDevelopersSection({
       {isLoading ? <DeveloperListSkeleton /> : null}
 
       {error ? (
-        <p className="trending-section__state trending-section__error">
-          {error}
-        </p>
+        <ErrorMessage
+          message={error}
+          className="trending-section__state trending-section__error"
+        />
       ) : null}
 
       {!isLoading && !error ? (

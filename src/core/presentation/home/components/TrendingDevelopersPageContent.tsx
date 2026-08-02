@@ -5,6 +5,7 @@ import { DeveloperCompactCard } from '@/core/presentation/home/components/Develo
 import { useTrendingDevelopersList } from '@/core/presentation/home/hooks/useTrendingDevelopersList'
 import { AppFooter } from '@/shared/components/AppFooter'
 import { AppHeader } from '@/shared/components/AppHeader'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { LoadMoreButton } from '@/shared/components/LoadMoreButton'
 import { PageLayout } from '@/shared/components/PageLayout'
 import { TrendingDevelopersPageSkeleton } from '@/shared/components/skeletons/TrendingDevelopersPageSkeleton'
@@ -54,9 +55,10 @@ export function TrendingDevelopersPageContent() {
         {isLoading ? <TrendingDevelopersPageSkeleton count={8} /> : null}
 
         {error ? (
-          <p className="trending-developers-page__state trending-developers-page__error">
-            {error}
-          </p>
+          <ErrorMessage
+            message={error}
+            className="trending-developers-page__state trending-developers-page__error"
+          />
         ) : null}
 
         {!isLoading && !error ? (

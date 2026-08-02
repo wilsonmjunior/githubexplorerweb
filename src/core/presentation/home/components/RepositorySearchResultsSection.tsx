@@ -1,4 +1,5 @@
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { EmptyState } from '@/shared/components/EmptyState'
 import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
@@ -34,9 +35,10 @@ export function RepositorySearchResultsSection({
       {isSearching ? <RepositoryListSkeleton count={6} variant="mobile" /> : null}
 
       {error ? (
-        <p className="repository-search-results__state repository-search-results__error">
-          {error}
-        </p>
+        <ErrorMessage
+          message={error}
+          className="repository-search-results__state repository-search-results__error"
+        />
       ) : null}
 
       {!isSearching && !error && results.length === 0 ? (
