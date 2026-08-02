@@ -8,41 +8,16 @@ Interface web para explorar desenvolvedores e repositórios do GitHub. Busque pe
 
 ### Home
 
-<p align="center">
-  <img src="screenshots/home.png" alt="Home - busca e trending developers" width="900" />
-</p>
+<img src="screenshots/home.png" alt="Home - busca e trending developers" width="700" />
 
 ### Perfil
 
-<p align="center">
-  <img src="screenshots/profile.png" alt="Perfil do desenvolvedor - repositorios e estatisticas" width="900" />
-</p>
+<img src="screenshots/profile.png" alt="Perfil do desenvolvedor - repositorios e estatisticas" width="700" />
 
 ### Detalhes do repositório
 
-<p align="center">
-  <img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="900" />
-</p>
+<img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="700" />
 
-## Screenshots
-
-### Home
-
-<p align="center">
-  <img src="screenshots/home.png" alt="Home - busca e trending developers" width="900" />
-</p>
-
-### Perfil
-
-<p align="center">
-  <img src="screenshots/profile.png" alt="Perfil do desenvolvedor - repositorios e estatisticas" width="900" />
-</p>
-
-### Detalhes do repositório
-
-<p align="center">
-  <img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="900" />
-</p>
 
 ## Funcionalidades
 
