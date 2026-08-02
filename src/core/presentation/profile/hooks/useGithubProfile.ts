@@ -7,6 +7,7 @@ import {
 } from '@/core/composition/use-cases/make-github-usecases'
 import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 export type ProfileRepoTypeFilter = 'all' | 'sources' | 'forks'
 export type ProfileRepoSortOption = 'stars' | 'forks' | 'updated'
@@ -28,6 +29,7 @@ type UseGithubProfileResult = {
   isLoadingMore: boolean
   isSearching: boolean
   error: string | null
+  reposError: string | null
   hasMore: boolean
   loadMore: () => void
 }
@@ -76,6 +78,7 @@ export function useGithubProfile(): UseGithubProfileResult {
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [reposError, setReposError] = useState<string | null>(null)
 
   const debouncedSearch = useDebouncedValue(searchQuery.trim(), SEARCH_DEBOUNCE_MS)
 
@@ -101,6 +104,7 @@ export function useGithubProfile(): UseGithubProfileResult {
       targetPage: number,
       append: boolean,
       sort: ProfileRepoSortOption,
+      signal?: AbortSignal,
     ) => {
       if (!login) {
         return
@@ -117,6 +121,7 @@ export function useGithubProfile(): UseGithubProfileResult {
         perPage: PAGE_SIZE,
         page: targetPage,
         sort,
+        signal,
       })
 
       setRepositories((current) =>
@@ -137,15 +142,25 @@ export function useGithubProfile(): UseGithubProfileResult {
     const loadUser = async () => {
       setIsLoading(true)
       setError(null)
+      setReposError(null)
+      setUser(null)
+      setRepositories([])
 
       try {
         const userUseCase = makeGetGitHubUserUseCase()
-        const userResult = await userUseCase.execute({ login })
+        const userResult = await userUseCase.execute({
+          login,
+          signal: controller.signal,
+        })
 
         if (!controller.signal.aborted) {
           setUser(userResult.user)
         }
       } catch (profileError) {
+        if (controller.signal.aborted || isAbortError(profileError)) {
+          return
+        }
+
         if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(
@@ -178,14 +193,18 @@ export function useGithubProfile(): UseGithubProfileResult {
     const loadRepositories = async () => {
       setIsLoadingRepos(true)
       setIsSearching(true)
-      setError(null)
+      setReposError(null)
       setPage(1)
 
       try {
-        await fetchRepositories(1, false, sortBy)
+        await fetchRepositories(1, false, sortBy, controller.signal)
       } catch (reposError) {
+        if (controller.signal.aborted || isAbortError(reposError)) {
+          return
+        }
+
         if (!controller.signal.aborted) {
-          setError(
+          setReposError(
             getGithubErrorMessage(
               reposError,
               'Não foi possível carregar os repositórios.',
@@ -221,14 +240,14 @@ export function useGithubProfile(): UseGithubProfileResult {
     }
 
     setIsLoadingMore(true)
-    setError(null)
+    setReposError(null)
 
     try {
       const nextPage = page + 1
       await fetchRepositories(nextPage, true, sortBy)
       setPage(nextPage)
     } catch (loadMoreError) {
-      setError(
+      setReposError(
         getGithubErrorMessage(
           loadMoreError,
           'Não foi possível carregar mais repositórios.',
@@ -256,6 +275,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     isLoadingMore,
     isSearching,
     error,
+    reposError,
     hasMore,
     loadMore,
   }

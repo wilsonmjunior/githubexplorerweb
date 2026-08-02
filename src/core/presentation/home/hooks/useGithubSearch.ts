@@ -3,6 +3,7 @@ import type { GitHubUserDto } from '@/core/domain/github'
 import { makeSearchGitHubUsersUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 type UseGithubSearchResult = {
   query: string
@@ -42,6 +43,7 @@ export function useGithubSearch(): UseGithubSearchResult {
         const result = await useCase.execute({
           query: queryToSearch,
           perPage: 10,
+          signal: controller.signal,
         })
 
         if (!controller.signal.aborted) {
@@ -51,6 +53,10 @@ export function useGithubSearch(): UseGithubSearchResult {
           setLoadedQuery(queryToSearch)
         }
       } catch (searchError) {
+        if (controller.signal.aborted || isAbortError(searchError)) {
+          return
+        }
+
         if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(

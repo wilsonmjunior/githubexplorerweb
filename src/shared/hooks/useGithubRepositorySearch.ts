@@ -3,6 +3,7 @@ import type { GitHubRepoSummaryDto } from '@/core/domain/github'
 import { makeSearchGitHubRepositoriesUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 type UseGithubRepositorySearchOptions = {
   ownerLogin?: string
@@ -53,6 +54,7 @@ export function useGithubRepositorySearch(
           ownerLogin,
           perPage,
           sort,
+          signal: controller.signal,
         })
 
         if (!controller.signal.aborted) {
@@ -62,6 +64,10 @@ export function useGithubRepositorySearch(
           setLoadedQuery(queryToSearch)
         }
       } catch (searchError) {
+        if (controller.signal.aborted || isAbortError(searchError)) {
+          return
+        }
+
         if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { GitHubUserDto } from '@/core/domain/github'
 import { makeGetTrendingDevelopersUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 type UseTrendingDevelopersResult = {
   developers: GitHubUserDto[]
@@ -17,20 +18,27 @@ export function useTrendingDevelopers(): UseTrendingDevelopersResult {
   const isLoading = !hasLoaded
 
   useEffect(() => {
-    let cancelled = false
+    const controller = new AbortController()
 
     ;(async () => {
       try {
         const useCase = makeGetTrendingDevelopersUseCase()
-        const result = await useCase.execute({ perPage: 5 })
+        const result = await useCase.execute({
+          perPage: 5,
+          signal: controller.signal,
+        })
 
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setDevelopers(result.developers)
           setError(null)
           setHasLoaded(true)
         }
       } catch (loadError) {
-        if (!cancelled) {
+        if (controller.signal.aborted || isAbortError(loadError)) {
+          return
+        }
+
+        if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(
               loadError,
@@ -42,9 +50,7 @@ export function useTrendingDevelopers(): UseTrendingDevelopersResult {
       }
     })()
 
-    return () => {
-      cancelled = true
-    }
+    return () => controller.abort()
   }, [])
 
   return { developers, isLoading, error }

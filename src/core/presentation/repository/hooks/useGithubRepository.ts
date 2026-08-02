@@ -5,6 +5,7 @@ import type {
 } from '@/core/domain/github'
 import { makeGetGitHubRepositoryDetailsUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 type UseGithubRepositoryResult = {
   details: GetGitHubRepositoryDetailsOutputDto | null
@@ -27,21 +28,29 @@ export function useGithubRepository(): UseGithubRepositoryResult {
       return
     }
 
-    let cancelled = false
+    const controller = new AbortController()
     const key = repositoryKey
 
     ;(async () => {
       try {
         const useCase = makeGetGitHubRepositoryDetailsUseCase()
-        const result = await useCase.execute({ owner, name: repo })
+        const result = await useCase.execute({
+          owner,
+          name: repo,
+          signal: controller.signal,
+        })
 
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setDetails(result)
           setError(null)
           setLoadedKey(key)
         }
       } catch (loadError) {
-        if (!cancelled) {
+        if (controller.signal.aborted || isAbortError(loadError)) {
+          return
+        }
+
+        if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(
               loadError,
@@ -54,9 +63,7 @@ export function useGithubRepository(): UseGithubRepositoryResult {
       }
     })()
 
-    return () => {
-      cancelled = true
-    }
+    return () => controller.abort()
   }, [owner, repo, repositoryKey])
 
   return { details, isLoading, error }

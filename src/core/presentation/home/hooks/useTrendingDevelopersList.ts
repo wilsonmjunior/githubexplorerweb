@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react'
 import type { GitHubUserDto } from '@/core/domain/github'
 import { makeGetTrendingDevelopersUseCase } from '@/core/composition/use-cases/make-github-usecases'
 import { getGithubErrorMessage } from '@/shared/utils/get-github-error-message'
+import { isAbortError } from '@/shared/utils/is-abort-error'
 
 const TRENDING_DEVELOPERS_PAGE_SIZE = 20
 
@@ -25,22 +26,26 @@ export function useTrendingDevelopersList(): UseTrendingDevelopersListResult {
 
   const isLoading = loadedPage < 1
 
-  const fetchTrendingPage = useCallback(async (pageToLoad: number) => {
-    const useCase = makeGetTrendingDevelopersUseCase()
-    return useCase.execute({
-      perPage: TRENDING_DEVELOPERS_PAGE_SIZE,
-      page: pageToLoad,
-    })
-  }, [])
+  const fetchTrendingPage = useCallback(
+    async (pageToLoad: number, signal?: AbortSignal) => {
+      const useCase = makeGetTrendingDevelopersUseCase()
+      return useCase.execute({
+        perPage: TRENDING_DEVELOPERS_PAGE_SIZE,
+        page: pageToLoad,
+        signal,
+      })
+    },
+    [],
+  )
 
   useEffect(() => {
-    let cancelled = false
+    const controller = new AbortController()
 
     ;(async () => {
       try {
-        const result = await fetchTrendingPage(1)
+        const result = await fetchTrendingPage(1, controller.signal)
 
-        if (!cancelled) {
+        if (!controller.signal.aborted) {
           setTotalCount(result.totalCount)
           setDevelopers(result.developers)
           setPage(1)
@@ -48,7 +53,11 @@ export function useTrendingDevelopersList(): UseTrendingDevelopersListResult {
           setError(null)
         }
       } catch (loadError) {
-        if (!cancelled) {
+        if (controller.signal.aborted || isAbortError(loadError)) {
+          return
+        }
+
+        if (!controller.signal.aborted) {
           setError(
             getGithubErrorMessage(
               loadError,
@@ -60,9 +69,7 @@ export function useTrendingDevelopersList(): UseTrendingDevelopersListResult {
       }
     })()
 
-    return () => {
-      cancelled = true
-    }
+    return () => controller.abort()
   }, [fetchTrendingPage])
 
   const hasMore = developers.length < totalCount
