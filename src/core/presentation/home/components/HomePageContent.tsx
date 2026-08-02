@@ -1,7 +1,6 @@
 import Container from 'react-bootstrap/Container'
 import { useState } from 'react'
 import { HomeHero } from '@/core/presentation/home/components/HomeHero'
-import { RepositorySearchResultsSection } from '@/core/presentation/home/components/RepositorySearchResultsSection'
 import { SearchResultsSection } from '@/core/presentation/home/components/SearchResultsSection'
 import { TrendingDevelopersSection } from '@/core/presentation/home/components/TrendingDevelopersSection'
 import { useResponsiveHomeSearch } from '@/core/presentation/home/hooks/useResponsiveHomeSearch'
@@ -15,7 +14,6 @@ export function HomePageContent() {
   const [isPopularTagSearch, setIsPopularTagSearch] = useState(false)
   const homeSearch = useResponsiveHomeSearch()
   const {
-    mode,
     query,
     setQuery,
     results,
@@ -56,22 +54,13 @@ export function HomePageContent() {
         />
 
         {hasActiveSearch ? (
-          mode === 'users' ? (
-            <SearchResultsSection
-              results={results}
-              totalCount={totalCount}
-              isSearching={isSearching}
-              error={searchError}
-              useTrendingSkeleton={isPopularTagSearch}
-            />
-          ) : (
-            <RepositorySearchResultsSection
-              results={results}
-              totalCount={totalCount}
-              isSearching={isSearching}
-              error={searchError}
-            />
-          )
+          <SearchResultsSection
+            results={results}
+            totalCount={totalCount}
+            isSearching={isSearching}
+            error={searchError}
+            useTrendingSkeleton={isPopularTagSearch}
+          />
         ) : (
           <TrendingDevelopersSection
             developers={developers}

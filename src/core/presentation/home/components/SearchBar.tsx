@@ -13,7 +13,7 @@ export function SearchBar({
   value,
   onChange,
   onSubmit,
-  placeholder = 'Buscar repositórios, tópicos...',
+  placeholder = 'Buscar usuários no GitHub...',
   isLoading = false,
 }: SearchBarProps) {
   const handleSubmit = (event: FormEvent) => {

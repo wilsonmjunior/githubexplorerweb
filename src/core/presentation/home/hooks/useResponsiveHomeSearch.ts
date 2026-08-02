@@ -1,44 +1,19 @@
-import type { GitHubRepoSummaryDto, GitHubUserDto } from '@/core/domain/github'
-import { useGithubRepositorySearch } from '@/shared/hooks/useGithubRepositorySearch'
+import type { GitHubUserDto } from '@/core/domain/github'
 import { useGithubSearch } from '@/core/presentation/home/hooks/useGithubSearch'
-import { useIsMobileViewport } from '@/shared/hooks/useIsMobileViewport'
 
-type GithubSearchState = {
+type ResponsiveHomeSearchResult = {
+  mode: 'users'
   query: string
   setQuery: (value: string) => void
+  results: GitHubUserDto[]
   totalCount: number
   isSearching: boolean
   error: string | null
   hasActiveSearch: boolean
 }
 
-type ResponsiveHomeSearchResult =
-  | (GithubSearchState & {
-      mode: 'users'
-      results: GitHubUserDto[]
-    })
-  | (GithubSearchState & {
-      mode: 'repositories'
-      results: GitHubRepoSummaryDto[]
-    })
-
 export function useResponsiveHomeSearch(): ResponsiveHomeSearchResult {
-  const isMobile = useIsMobileViewport()
   const userSearch = useGithubSearch()
-  const repositorySearch = useGithubRepositorySearch({ perPage: 10, sort: 'stars' })
-
-  if (isMobile) {
-    return {
-      mode: 'repositories',
-      query: repositorySearch.query,
-      setQuery: repositorySearch.setQuery,
-      results: repositorySearch.results,
-      totalCount: repositorySearch.totalCount,
-      isSearching: repositorySearch.isSearching,
-      error: repositorySearch.error,
-      hasActiveSearch: repositorySearch.hasActiveSearch,
-    }
-  }
 
   return {
     mode: 'users',
