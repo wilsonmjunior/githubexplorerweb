@@ -63,8 +63,8 @@
 
 .profile-repositories__filters {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
   gap: 0.75rem;
   margin-top: 1rem;
   padding-bottom: 1rem;
@@ -72,7 +72,9 @@
 
 .profile-repositories__chips {
   display: flex;
+  flex: 1 1 auto;
   gap: 0.5rem;
+  min-width: 0;
   overflow-x: auto;
 }
 
@@ -91,7 +93,9 @@
 
 .profile-repositories__sort {
   display: inline-flex;
+  flex: 1 1 100%;
   align-items: center;
+  justify-content: flex-start;
   gap: 0.25rem;
   border: none;
   background: transparent;

@@ -26,14 +26,15 @@ export function ProfilePageContent() {
     sortBy,
     setSortBy,
     isLoading,
+    isLoadingRepos,
     isLoadingMore,
-    isSearching,
     error,
     hasMore,
     loadMore,
   } = useGithubProfile()
 
-  const isReposLoading = Boolean(user) && isSearching && repositories.length === 0
+  const isReposLoading =
+    Boolean(user) && isLoadingRepos && repositories.length === 0
 
   return (
     <PageLayout
@@ -74,7 +75,7 @@ export function ProfilePageContent() {
               availableLanguages={availableLanguages}
               sortBy={sortBy}
               onSortChange={setSortBy}
-              isSearching={isSearching}
+              isSearching={isLoadingRepos}
               isLoadingMore={isLoadingMore}
               hasMore={hasMore}
               onLoadMore={loadMore}
@@ -93,9 +94,16 @@ export function ProfilePageContent() {
                 <ProfileRepositoriesDesktop
                   repositories={repositories}
                   totalCount={user.publicRepos}
+                  searchQuery={searchQuery}
+                  onSearchChange={setSearchQuery}
+                  typeFilter={typeFilter}
+                  onTypeFilterChange={setTypeFilter}
+                  languageFilter={languageFilter}
+                  onLanguageFilterChange={setLanguageFilter}
+                  availableLanguages={availableLanguages}
                   sortBy={sortBy}
                   onSortChange={setSortBy}
-                  isSearching={isSearching}
+                  isSearching={isLoadingRepos}
                   isLoadingMore={isLoadingMore}
                   hasMore={hasMore}
                   onLoadMore={loadMore}
