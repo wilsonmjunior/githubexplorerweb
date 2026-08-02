@@ -19,7 +19,7 @@ type UserProfileUser = GitHubUserDto & {
 
 type UserProfileCardProps = {
   user: UserProfileUser
-  variant: 'account' | 'sidebar' | 'hero'
+  variant: 'account' | 'sidebar' | 'hero' | 'profile'
 }
 
 export function UserProfileCard({ user, variant }: UserProfileCardProps) {
@@ -30,7 +30,7 @@ export function UserProfileCard({ user, variant }: UserProfileCardProps) {
   const rootClassName = [
     'user-profile-card',
     `user-profile-card--${variant}`,
-    variant === 'hero' ? 'text-center' : '',
+    variant === 'hero' || variant === 'profile' ? 'text-center' : '',
   ]
     .filter(Boolean)
     .join(' ')
@@ -156,6 +156,90 @@ export function UserProfileCard({ user, variant }: UserProfileCardProps) {
               },
             ]}
           />
+        </div>
+      </section>
+    )
+  }
+
+  if (variant === 'profile') {
+    return (
+      <section className={rootClassName}>
+        {isUserFollowing ? (
+          <FollowingTag className="following-tag--top-right" />
+        ) : null}
+
+        <div className="user-profile-card__profile-layout">
+          <div className="user-profile-card__avatar-wrap user-profile-card__avatar-wrap--profile">
+            {avatar}
+            <span className="user-profile-card__verified" aria-label="Verificado">
+              <i className="bi bi-patch-check-fill" aria-hidden="true" />
+            </span>
+          </div>
+
+          <div className="user-profile-card__profile-body">
+            <div className="user-profile-card__identity">
+              <h1 className="user-profile-card__name">{displayName}</h1>
+              <span className="user-profile-card__login user-profile-card__login--profile-mobile">
+                {user.login}
+              </span>
+              <span className="user-profile-card__login user-profile-card__login--profile-desktop">
+                @{user.login}
+              </span>
+            </div>
+            {bio}
+
+            <div className="user-profile-card__counts user-profile-card__counts--profile-desktop">
+              {followCounts}
+            </div>
+
+            <StatsGrid
+              variant="hero"
+              className="user-profile-card__stats--profile-mobile"
+              items={[
+                {
+                  label: 'SEGUIDORES',
+                  value: formatCompactNumber(user.followers),
+                },
+                {
+                  label: 'SEGUINDO',
+                  value: formatCompactNumber(user.following),
+                },
+                {
+                  label: 'REPOS',
+                  value: formatCompactNumber(user.publicRepos),
+                },
+              ]}
+            />
+
+            <div className="user-profile-card__meta">
+              {user.email ? (
+                <div className="user-profile-card__meta-item">
+                  <i className="bi bi-envelope" aria-hidden="true" />
+                  <span>{user.email}</span>
+                </div>
+              ) : null}
+              {user.location ? (
+                <div className="user-profile-card__meta-item">
+                  <i className="bi bi-geo-alt" aria-hidden="true" />
+                  <span>{user.location}</span>
+                </div>
+              ) : null}
+              {user.blog ? (
+                <div className="user-profile-card__meta-item">
+                  <i className="bi bi-link-45deg" aria-hidden="true" />
+                  <a href={user.blog} target="_blank" rel="noreferrer">
+                    {formatBlogUrl(user.blog)}
+                  </a>
+                </div>
+              ) : null}
+              {user.company ? (
+                <div className="user-profile-card__meta-item">
+                  <i className="bi bi-building" aria-hidden="true" />
+                  <span>{user.company}</span>
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
       </section>
     )

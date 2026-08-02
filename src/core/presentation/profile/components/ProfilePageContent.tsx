@@ -1,9 +1,9 @@
 import Container from 'react-bootstrap/Container'
-import { ProfileRepositoriesDesktop } from '@/core/presentation/profile/components/ProfileRepositoriesDesktop'
 import { ProfileRepositoriesSection } from '@/core/presentation/profile/components/ProfileRepositoriesSection'
 import { useGithubProfile } from '@/core/presentation/profile/hooks/useGithubProfile'
 import { AppFooter } from '@/shared/components/AppFooter'
 import { AppHeader } from '@/shared/components/AppHeader'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { PageLayout } from '@/shared/components/PageLayout'
 import { UserProfileCard } from '@/shared/components/UserProfileCard'
 import {
@@ -53,65 +53,38 @@ export function ProfilePageContent() {
 
       {error ? (
         <Container fluid="lg" className="px-3 px-md-4">
-          <p className="profile-page__error">{error}</p>
+          <ErrorMessage message={error} className="profile-page__error" />
         </Container>
       ) : null}
 
       {!isLoading && !error && user ? (
-        <>
-          <div className="d-md-none">
-            <Container fluid="lg" className="profile-page__hero px-3">
-              <UserProfileCard user={user} variant="hero" />
-            </Container>
+        <Container fluid="lg" className="profile-page__container px-3 px-md-4">
+          <div className="profile-page__grid">
+            <UserProfileCard user={user} variant="profile" />
 
-            <ProfileRepositoriesSection
-              repositories={repositories}
-              searchQuery={searchQuery}
-              onSearchChange={setSearchQuery}
-              typeFilter={typeFilter}
-              onTypeFilterChange={setTypeFilter}
-              languageFilter={languageFilter}
-              onLanguageFilterChange={setLanguageFilter}
-              availableLanguages={availableLanguages}
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              isSearching={isLoadingRepos}
-              isLoadingMore={isLoadingMore}
-              hasMore={hasMore}
-              onLoadMore={loadMore}
-            />
+            {isReposLoading ? (
+              <ProfileRepositoriesSkeleton />
+            ) : (
+              <ProfileRepositoriesSection
+                repositories={repositories}
+                totalCount={user.publicRepos}
+                searchQuery={searchQuery}
+                onSearchChange={setSearchQuery}
+                typeFilter={typeFilter}
+                onTypeFilterChange={setTypeFilter}
+                languageFilter={languageFilter}
+                onLanguageFilterChange={setLanguageFilter}
+                availableLanguages={availableLanguages}
+                sortBy={sortBy}
+                onSortChange={setSortBy}
+                isSearching={isLoadingRepos}
+                isLoadingMore={isLoadingMore}
+                hasMore={hasMore}
+                onLoadMore={loadMore}
+              />
+            )}
           </div>
-
-          <Container
-            fluid="lg"
-            className="profile-page__desktop d-none d-md-block px-4 py-4"
-          >
-            <div className="profile-page__grid">
-              <UserProfileCard user={user} variant="sidebar" />
-              {isReposLoading ? (
-                <ProfileRepositoriesSkeleton variant="desktop" />
-              ) : (
-                <ProfileRepositoriesDesktop
-                  repositories={repositories}
-                  totalCount={user.publicRepos}
-                  searchQuery={searchQuery}
-                  onSearchChange={setSearchQuery}
-                  typeFilter={typeFilter}
-                  onTypeFilterChange={setTypeFilter}
-                  languageFilter={languageFilter}
-                  onLanguageFilterChange={setLanguageFilter}
-                  availableLanguages={availableLanguages}
-                  sortBy={sortBy}
-                  onSortChange={setSortBy}
-                  isSearching={isLoadingRepos}
-                  isLoadingMore={isLoadingMore}
-                  hasMore={hasMore}
-                  onLoadMore={loadMore}
-                />
-              )}
-            </div>
-          </Container>
-        </>
+        </Container>
       ) : null}
     </PageLayout>
   )

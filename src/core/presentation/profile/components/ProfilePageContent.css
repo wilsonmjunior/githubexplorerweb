@@ -1,12 +1,13 @@
-.profile-page__desktop {
+.profile-page__container {
   max-width: var(--ge-container-max);
+  padding-top: 0;
+  padding-bottom: 1rem;
 }
 
 .profile-page__grid {
-  display: grid;
-  grid-template-columns: minmax(220px, 3fr) 9fr;
-  gap: 2.5rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .profile-page__state,
@@ -20,6 +21,16 @@
   color: #ffb4ab;
 }
 
-.profile-page__hero {
-  max-width: var(--ge-container-max);
+@media (min-width: 768px) {
+  .profile-page__container {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .profile-page__grid {
+    display: grid;
+    grid-template-columns: minmax(220px, 3fr) 9fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
 }
