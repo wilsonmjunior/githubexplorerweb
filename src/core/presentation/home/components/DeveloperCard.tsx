@@ -2,6 +2,7 @@ import type { GitHubUserDto } from '@/core/domain/github'
 import { Link } from 'react-router-dom'
 import { formatCompactNumber } from '@/shared/utils/format-number'
 import { getDisplayName } from '@/shared/utils/get-display-name'
+import { userHasProfileStats } from '@/shared/utils/user-has-profile-stats'
 import { FollowingTag } from '@/shared/components/FollowingTag'
 import { profilePath } from '@/shared/constants/routes'
 import { useGithubAuth } from '@/shared/providers/GithubAuthProvider'
@@ -17,6 +18,7 @@ export function DeveloperCard({ developer, rank }: DeveloperCardProps) {
   const displayName = getDisplayName(developer)
   const subtitle = developer.bio ?? `@${developer.login}`
   const isUserFollowing = isFollowing(developer.login)
+  const showStats = userHasProfileStats(developer)
 
   return (
     <article className="developer-card glass-card">
@@ -50,16 +52,18 @@ export function DeveloperCard({ developer, rank }: DeveloperCardProps) {
           </Link>
         </h3>
         <p className="developer-card__bio">{subtitle}</p>
-        <div className="developer-card__stats">
-          <span className="developer-card__stat">
-            <i className="bi bi-people" aria-hidden="true" />
-            {formatCompactNumber(developer.followers)}
-          </span>
-          <span className="developer-card__stat">
-            <i className="bi bi-star" aria-hidden="true" />
-            {formatCompactNumber(developer.publicRepos)}
-          </span>
-        </div>
+        {showStats ? (
+          <div className="developer-card__stats">
+            <span className="developer-card__stat">
+              <i className="bi bi-people" aria-hidden="true" />
+              {formatCompactNumber(developer.followers)}
+            </span>
+            <span className="developer-card__stat">
+              <i className="bi bi-star" aria-hidden="true" />
+              {formatCompactNumber(developer.publicRepos)}
+            </span>
+          </div>
+        ) : null}
       </div>
     </article>
   )

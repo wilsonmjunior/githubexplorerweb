@@ -51,7 +51,7 @@ button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
-[tabindex]:focus-visible {
+[tabindex]:focus-visible:not(.page-layout__main) {
   outline: 2px solid var(--ge-primary);
   outline-offset: 2px;
 }

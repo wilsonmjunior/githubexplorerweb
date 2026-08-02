@@ -43,19 +43,10 @@ export function AccountPageContent() {
         {isUnauthenticated ? (
           <div className="account-page__state glass-card">
             <i className="bi bi-shield-lock account-page__state-icon" aria-hidden="true" />
-            <h2>Conta não conectada</h2>
+            <h2>Conta indisponível</h2>
             <p>
-              Configure <code>VITE_GITHUB_TOKEN</code> no arquivo <code>.env</code>{' '}
-              para visualizar os dados da sua conta GitHub.
+              Não foi possível carregar os dados da sua conta GitHub neste momento.
             </p>
-            <a
-              href="https://github.com/settings/tokens"
-              target="_blank"
-              rel="noreferrer"
-              className="account-page__state-link"
-            >
-              Criar token no GitHub
-            </a>
           </div>
         ) : null}
 

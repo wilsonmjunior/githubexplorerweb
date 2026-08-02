@@ -5,6 +5,7 @@ import type {
   ProfileRepoTypeFilter,
 } from '@/core/presentation/profile/hooks/useGithubProfile'
 import { EmptyState } from '@/shared/components/EmptyState'
+import { ErrorMessage } from '@/shared/components/ErrorMessage'
 import { LoadMoreButton } from '@/shared/components/LoadMoreButton'
 import { RepositoryListCard } from '@/shared/components/RepositoryListCard'
 import { RepositoryListSkeleton } from '@/shared/components/skeletons/RepositoryListSkeleton'
@@ -26,6 +27,7 @@ type ProfileRepositoriesSectionProps = {
   isLoadingMore: boolean
   hasMore: boolean
   onLoadMore: () => void
+  error?: string | null
 }
 
 const TYPE_OPTIONS: Array<{ value: ProfileRepoTypeFilter; label: string }> = [
@@ -65,6 +67,7 @@ export function ProfileRepositoriesSection({
   isLoadingMore,
   hasMore,
   onLoadMore,
+  error,
 }: ProfileRepositoriesSectionProps) {
   const [openDropdown, setOpenDropdown] = useState<DropdownKey>(null)
   const typeMenuId = useId()
@@ -304,6 +307,8 @@ export function ProfileRepositoriesSection({
       </div>
 
       <div className="profile-repositories__list">
+        {error ? <ErrorMessage message={error} /> : null}
+
         {isSearching ? (
           <RepositoryListSkeleton count={4} />
         ) : (
@@ -313,7 +318,7 @@ export function ProfileRepositoriesSection({
         )}
       </div>
 
-      {repositories.length === 0 && !isSearching ? (
+      {repositories.length === 0 && !isSearching && !error ? (
         <EmptyState message="Nenhum repositório encontrado." />
       ) : null}
 

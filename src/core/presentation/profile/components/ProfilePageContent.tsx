@@ -29,6 +29,7 @@ export function ProfilePageContent() {
     isLoadingRepos,
     isLoadingMore,
     error,
+    reposError,
     hasMore,
     loadMore,
   } = useGithubProfile()
@@ -81,6 +82,7 @@ export function ProfilePageContent() {
                 isLoadingMore={isLoadingMore}
                 hasMore={hasMore}
                 onLoadMore={loadMore}
+                error={reposError}
               />
             )}
           </div>

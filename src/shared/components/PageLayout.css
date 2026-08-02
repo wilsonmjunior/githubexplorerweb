@@ -6,13 +6,9 @@
   display: block;
 }
 
-.page-layout__main:focus {
-  outline: none;
-}
-
+.page-layout__main:focus,
 .page-layout__main:focus-visible {
-  outline: 2px solid var(--ge-primary);
-  outline-offset: -2px;
+  outline: none;
 }
 
 .skip-link {

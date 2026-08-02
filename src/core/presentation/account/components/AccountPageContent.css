@@ -67,21 +67,6 @@
   line-height: 1.5;
 }
 
-.account-page__state code {
-  color: var(--ge-primary);
-}
-
-.account-page__state-link {
-  margin-top: 0.5rem;
-  color: var(--ge-primary);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.account-page__state-link:hover {
-  text-decoration: underline;
-}
-
 .account-page__error {
   padding: 1rem 0;
   color: #ffb4ab;

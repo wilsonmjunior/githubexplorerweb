@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { HomeHero } from '@/core/presentation/home/components/HomeHero'
 import { SearchResultsSection } from '@/core/presentation/home/components/SearchResultsSection'
 import { TrendingDevelopersSection } from '@/core/presentation/home/components/TrendingDevelopersSection'
-import { useResponsiveHomeSearch } from '@/core/presentation/home/hooks/useResponsiveHomeSearch'
+import { useGithubSearch } from '@/core/presentation/home/hooks/useGithubSearch'
 import { useTrendingDevelopers } from '@/core/presentation/home/hooks/useTrendingDevelopers'
 import { AppFooter } from '@/shared/components/AppFooter'
 import { AppHeader } from '@/shared/components/AppHeader'
@@ -12,7 +12,7 @@ import './HomePageContent.css'
 
 export function HomePageContent() {
   const [isPopularTagSearch, setIsPopularTagSearch] = useState(false)
-  const homeSearch = useResponsiveHomeSearch()
+  const homeSearch = useGithubSearch()
   const {
     query,
     setQuery,
