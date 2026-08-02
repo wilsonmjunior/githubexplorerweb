@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { GitHubRepoSummaryDto } from '@/core/domain/github'
 import { useGithubRepositorySearch } from '@/shared/hooks/useGithubRepositorySearch'
@@ -12,6 +12,7 @@ type HeaderRepositorySearchProps = {
 export function HeaderRepositorySearch({ className }: HeaderRepositorySearchProps) {
   const navigate = useNavigate()
   const containerRef = useRef<HTMLDivElement>(null)
+  const listboxId = useId()
   const { query, setQuery, results, isSearching, error, hasActiveSearch } =
     useGithubRepositorySearch({ perPage: 5, sort: 'stars' })
   const [isOpen, setIsOpen] = useState(false)
@@ -69,6 +70,7 @@ export function HeaderRepositorySearch({ className }: HeaderRepositorySearchProp
         aria-label="Buscar repositórios"
         aria-expanded={showDropdown}
         aria-haspopup="listbox"
+        aria-controls={listboxId}
       />
       {isSearching ? (
         <span
@@ -79,19 +81,28 @@ export function HeaderRepositorySearch({ className }: HeaderRepositorySearchProp
       ) : null}
 
       {showDropdown ? (
-        <div className="header-repo-search__dropdown" role="listbox">
+        <div
+          id={listboxId}
+          className="header-repo-search__dropdown"
+          role="listbox"
+        >
           {error ? (
-            <p className="header-repo-search__message header-repo-search__message--error">
+            <p
+              role="alert"
+              className="header-repo-search__message header-repo-search__message--error"
+            >
               {error}
             </p>
           ) : null}
 
           {!error && isSearching ? (
-            <p className="header-repo-search__message">Buscando...</p>
+            <p className="header-repo-search__message" role="status">
+              Buscando...
+            </p>
           ) : null}
 
           {!error && !isSearching && results.length === 0 ? (
-            <p className="header-repo-search__message">
+            <p className="header-repo-search__message" role="status">
               Nenhum repositório encontrado.
             </p>
           ) : null}

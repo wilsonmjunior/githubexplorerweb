@@ -11,7 +11,7 @@ export const REPOSITORY_ACTIVITY_MOBILE_ICONS = {
 } as const
 
 export const REPOSITORY_ACTIVITY_MOBILE_VARIANTS = {
-  primary: 'repository-mobile-activity__icon-wrap--primary',
-  tertiary: 'repository-mobile-activity__icon-wrap--tertiary',
-  error: 'repository-mobile-activity__icon-wrap--secondary',
+  primary: 'repository-activity__icon-wrap--primary',
+  tertiary: 'repository-activity__icon-wrap--tertiary',
+  error: 'repository-activity__icon-wrap--secondary',
 } as const

@@ -21,6 +21,7 @@ export function LoadMoreButton({
       className={`load-more-btn ${className}`.trim()}
       onClick={onClick}
       disabled={isLoading}
+      aria-busy={isLoading}
     >
       {isLoading ? loadingLabel : label}
     </button>

@@ -40,7 +40,6 @@ export function AccountRepositoriesSection({
             <RepositoryListCard
               key={repository.id}
               repository={repository}
-              variant="desktop"
             />
           ))}
         </div>

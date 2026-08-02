@@ -1,7 +1,7 @@
 .repository-list-card {
   display: block;
   padding: 1rem;
-  border: 1px solid #1e293b;
+  border: 1px solid var(--ge-outline-variant);
   border-radius: 0.75rem;
   background: #0f172a;
   color: inherit;
@@ -82,31 +82,37 @@
   gap: 0.25rem;
 }
 
-.repository-list-card--desktop {
-  padding: 1.5rem;
-  border: 1px solid var(--ge-outline-variant);
-  border-radius: 0.75rem;
-  background: var(--ge-surface-container-low);
+.repository-list-card__license {
+  display: none;
 }
 
-.repository-list-card--desktop:hover {
-  background: var(--ge-surface-container);
+@media (min-width: 768px) {
+  .repository-list-card {
+    padding: 1.5rem;
+    background: var(--ge-surface-container-low);
+  }
+
+  .repository-list-card:hover {
+    background: var(--ge-surface-container);
+  }
+
+  .repository-list-card__description {
+    max-width: 42rem;
+    -webkit-line-clamp: 3;
+  }
+
+  .repository-list-card__updated {
+    margin-left: auto;
+    font-style: normal;
+  }
 }
 
-.repository-list-card--desktop .repository-list-card__header {
-  align-items: flex-start;
-}
+@media (max-width: 767.98px) {
+  .repository-list-card__license {
+    display: inline;
+  }
 
-.repository-list-card--desktop .repository-list-card__name {
-  font-size: 1rem;
-}
-
-.repository-list-card--desktop .repository-list-card__description {
-  max-width: 42rem;
-  -webkit-line-clamp: 3;
-}
-
-.repository-list-card--desktop .repository-list-card__updated {
-  margin-left: auto;
-  font-style: normal;
+  .repository-list-card__updated {
+    display: none;
+  }
 }

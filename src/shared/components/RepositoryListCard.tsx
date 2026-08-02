@@ -7,19 +7,15 @@ import './RepositoryListCard.css'
 
 type RepositoryListCardProps = {
   repository: GitHubRepoSummaryDto
-  variant?: 'mobile' | 'desktop'
 }
 
-export function RepositoryListCard({
-  repository,
-  variant = 'mobile',
-}: RepositoryListCardProps) {
+export function RepositoryListCard({ repository }: RepositoryListCardProps) {
   const [owner, name] = repository.fullName.split('/')
 
   return (
     <Link
       to={repositoryPath(owner, name)}
-      className={`repository-list-card repository-list-card--${variant}`}
+      className="repository-list-card"
     >
       <div className="repository-list-card__header">
         <span className="repository-list-card__name">{repository.name}</span>
@@ -49,7 +45,7 @@ export function RepositoryListCard({
           <i className="bi bi-diagram-3" aria-hidden="true" />
           {formatCompactNumber(repository.forksCount)}
         </span>
-        {variant === 'mobile' && repository.license ? (
+        {repository.license ? (
           <span className="repository-list-card__license">
             {repository.license}
           </span>
