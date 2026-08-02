@@ -14,6 +14,10 @@ Interface web para explorar desenvolvedores e repositórios do GitHub. Busque pe
 
 <img src="screenshots/profile.png" alt="Perfil do desenvolvedor - repositorios e estatisticas" width="700" />
 
+### Minha conta
+
+<img src="screenshots/account.png" alt="Minha conta GitHub - perfil, organizacoes e repositorios" width="700" />
+
 ### Detalhes do repositório
 
 <img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="700" />
