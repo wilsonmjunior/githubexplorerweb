@@ -22,6 +22,26 @@ Interface web para explorar desenvolvedores e repositórios do GitHub. Busque pe
   <img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="900" />
 </p>
 
+## Screenshots
+
+### Home
+
+<p align="center">
+  <img src="screenshots/home.png" alt="Home - busca e trending developers" width="900" />
+</p>
+
+### Perfil
+
+<p align="center">
+  <img src="screenshots/profile.png" alt="Perfil do desenvolvedor - repositorios e estatisticas" width="900" />
+</p>
+
+### Detalhes do repositório
+
+<p align="center">
+  <img src="screenshots/repository.png" alt="Detalhes do repositorio - stats, linguagens e atividade" width="900" />
+</p>
+
 ## Funcionalidades
 
 - **Home** — busca de desenvolvedores e repositórios, com resultados em tempo real
@@ -152,7 +172,3 @@ import { APP_ROUTES } from '@/shared/constants/routes'
 ```
 
 Configurado em `tsconfig.app.json` e `vite.config.ts`.
-
-## Licença
-
-Projeto privado.
