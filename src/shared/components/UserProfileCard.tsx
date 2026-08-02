@@ -195,6 +195,12 @@ export function UserProfileCard({ user, variant }: UserProfileCardProps) {
       {bio}
       {followCounts}
       <div className="user-profile-card__meta">
+        {user.email ? (
+          <div className="user-profile-card__meta-item">
+            <i className="bi bi-envelope" aria-hidden="true" />
+            <span>{user.email}</span>
+          </div>
+        ) : null}
         {user.location ? (
           <div className="user-profile-card__meta-item">
             <i className="bi bi-geo-alt" aria-hidden="true" />

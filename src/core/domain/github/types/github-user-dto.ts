@@ -7,6 +7,7 @@ export type GitHubUserDto = {
   location: string | null
   blog: string | null
   company: string | null
+  email: string | null
   followers: number
   following: number
   publicRepos: number

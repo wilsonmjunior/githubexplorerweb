@@ -10,6 +10,7 @@ type GitHubApiUser = {
   location?: string | null
   blog?: string | null
   company?: string | null
+  email?: string | null
   followers?: number
   following?: number
   public_repos?: number
@@ -26,6 +27,7 @@ export function mapGitHubUser(user: GitHubApiUser): GitHubUserDto {
     location: user.location ?? null,
     blog: user.blog ?? null,
     company: user.company ?? null,
+    email: user.email ?? null,
     followers: user.followers ?? 0,
     following: user.following ?? 0,
     publicRepos: user.public_repos ?? 0,
