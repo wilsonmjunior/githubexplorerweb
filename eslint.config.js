@@ -2,7 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
-import importPlugin from 'eslint-plugin-import'
+import importPlugin from 'eslint-plugin-import-x'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
@@ -20,7 +20,7 @@ export default defineConfig([
       globals: globals.browser,
     },
     settings: {
-      'import/resolver': {
+      'import-x/resolver': {
         typescript: {
           project: './tsconfig.app.json',
         },
@@ -30,10 +30,10 @@ export default defineConfig([
   {
     files: ['src/core/domain/**/*.{ts,tsx}'],
     plugins: {
-      import: importPlugin,
+      'import-x': importPlugin,
     },
     rules: {
-      'import/no-restricted-paths': [
+      'import-x/no-restricted-paths': [
         'error',
         {
           zones: [
@@ -61,10 +61,10 @@ export default defineConfig([
   {
     files: ['src/core/application/**/*.{ts,tsx}'],
     plugins: {
-      import: importPlugin,
+      'import-x': importPlugin,
     },
     rules: {
-      'import/no-restricted-paths': [
+      'import-x/no-restricted-paths': [
         'error',
         {
           zones: [
@@ -87,10 +87,10 @@ export default defineConfig([
   {
     files: ['src/core/presentation/**/*.{ts,tsx}'],
     plugins: {
-      import: importPlugin,
+      'import-x': importPlugin,
     },
     rules: {
-      'import/no-restricted-paths': [
+      'import-x/no-restricted-paths': [
         'error',
         {
           zones: [
