@@ -46,6 +46,16 @@ button {
   font: inherit;
 }
 
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--ge-primary);
+  outline-offset: 2px;
+}
+
 code {
   font-family: var(--mono);
   display: inline-flex;

@@ -1,3 +1,38 @@
+.page-layout {
+  position: relative;
+}
+
 .page-layout__main {
   display: block;
+}
+
+.page-layout__main:focus {
+  outline: none;
+}
+
+.page-layout__main:focus-visible {
+  outline: 2px solid var(--ge-primary);
+  outline-offset: -2px;
+}
+
+.skip-link {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 2000;
+  padding: 0.625rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--ge-primary-container);
+  color: var(--ge-on-primary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid var(--ge-on-primary);
+  outline-offset: 2px;
 }

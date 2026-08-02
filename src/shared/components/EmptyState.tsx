@@ -7,6 +7,11 @@ type EmptyStateProps = {
 
 export function EmptyState({ message, className = '' }: EmptyStateProps) {
   return (
-    <p className={`empty-state ${className}`.trim()}>{message}</p>
+    <p
+      role="status"
+      className={`empty-state ${className}`.trim()}
+    >
+      {message}
+    </p>
   )
 }
