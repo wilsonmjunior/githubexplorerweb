@@ -2,6 +2,8 @@
 
 Interface web para explorar desenvolvedores e repositórios do GitHub. Busque perfis, navegue por trending developers, visualize repositórios e acesse detalhes com uma experiência responsiva para mobile e desktop.
 
+**Demo:** [https://gitexplorer-indol.vercel.app/](https://gitexplorer-indol.vercel.app/)
+
 ## Screenshots
 
 ### Home
