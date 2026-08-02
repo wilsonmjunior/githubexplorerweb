@@ -1,79 +1,51 @@
-.repository-page-skeleton__mobile {
-  padding-bottom: 2rem;
+.repository-page-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .repository-page-skeleton__hero {
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
-  padding: 1.25rem 1rem;
-  border-bottom: 1px solid var(--ge-outline-variant);
-}
-
-.repository-page-skeleton__stats-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.75rem;
-  padding: 1rem;
-}
-
-.repository-page-skeleton__cta {
-  margin: 0 0.75rem 1rem;
-}
-
-.repository-page-skeleton__section {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  padding: 1rem;
-  border-top: 1px solid var(--ge-outline-variant);
-}
-
-.repository-page-skeleton__activity {
-  display: flex;
-  gap: 0.75rem;
-  align-items: flex-start;
-}
-
-.repository-page-skeleton__activity-lines {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.repository-page-skeleton__desktop {
-  padding: 1.5rem 0 2rem;
-}
-
-.repository-page-skeleton__header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  padding-top: 2rem;
 }
 
 .repository-page-skeleton__bento {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-  gap: 1.25rem;
-}
-
-.repository-page-skeleton__content {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .repository-page-skeleton__secondary {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
 
-@media (max-width: 991px) {
+@media (min-width: 768px) {
+  .repository-page-skeleton__hero {
+    padding-top: 0;
+  }
+
   .repository-page-skeleton__bento {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .repository-page-skeleton__bento > :first-child {
+    grid-column: span 4;
+  }
+
+  .repository-page-skeleton__content {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .repository-page-skeleton__secondary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }

@@ -1,23 +1,30 @@
 .repository-activity {
   overflow: hidden;
-  border-radius: 0.75rem;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .repository-activity__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid var(--ge-outline-variant);
-  background: var(--ge-surface-container);
+  margin-bottom: 1rem;
+  padding: 0;
+  border-bottom: none;
+  background: transparent;
 }
 
 .repository-activity__title {
-  font-size: 1.25rem;
+  color: var(--ge-on-surface-variant);
+  font-size: 0.75rem;
   font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .repository-activity__view-all {
+  display: none;
   border: none;
   background: transparent;
   color: var(--ge-primary);
@@ -27,42 +34,67 @@
   text-transform: uppercase;
 }
 
+.repository-activity__view-all:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .repository-activity__list {
   display: flex;
   flex-direction: column;
+  gap: 1.5rem;
 }
 
 .repository-activity__item {
   display: flex;
   gap: 1rem;
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--ge-outline-variant);
-  transition: background-color 0.15s ease;
-}
-
-.repository-activity__item:last-child {
+  padding: 0;
   border-bottom: none;
 }
 
-.repository-activity__item:hover {
-  background: var(--ge-surface-container-low);
-}
-
-.repository-activity__icon {
+.repository-activity__timeline {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   flex-shrink: 0;
-  font-size: 1.25rem;
 }
 
-.repository-activity__icon--primary {
+.repository-activity__icon-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+}
+
+.repository-activity__icon-wrap--primary {
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: rgba(56, 189, 248, 0.2);
   color: var(--ge-primary);
 }
 
-.repository-activity__icon--tertiary {
+.repository-activity__icon-wrap--tertiary {
+  border: 1px solid rgba(241, 160, 43, 0.3);
+  background: rgba(241, 160, 43, 0.2);
   color: var(--ge-tertiary);
 }
 
-.repository-activity__icon--error {
-  color: #ffb4ab;
+.repository-activity__icon-wrap--secondary {
+  border: 1px solid rgba(47, 58, 163, 0.3);
+  background: rgba(47, 58, 163, 0.2);
+  color: var(--ge-secondary);
+}
+
+.repository-activity__line {
+  flex: 1;
+  width: 1px;
+  margin-top: 0.5rem;
+  background: var(--ge-outline-variant);
+}
+
+.repository-activity__icon {
+  display: none;
 }
 
 .repository-activity__content {
@@ -70,62 +102,166 @@
   min-width: 0;
 }
 
-.repository-activity__row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 0.5rem;
-}
-
-.repository-activity__item-title {
-  font-size: 1rem;
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.repository-activity__time {
-  color: var(--ge-on-surface-variant);
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
+.repository-activity__row,
 .repository-activity__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
+  display: none;
+}
+
+.repository-activity__mobile-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.repository-activity__mobile-meta {
+  margin-top: 0.25rem;
   color: var(--ge-on-surface-variant);
   font-family: var(--mono);
   font-size: 0.8125rem;
 }
 
-.repository-activity__tag {
-  padding: 0.125rem 0.5rem;
+.repository-activity__mobile-meta code {
+  padding: 0.125rem 0.375rem;
   border-radius: 0.25rem;
-  background: var(--ge-surface-container-highest);
-}
-
-.repository-activity__tag--primary {
+  background: var(--ge-surface-container);
   color: var(--ge-primary);
 }
 
-.repository-activity__tag--tertiary {
-  color: var(--ge-tertiary);
-}
-
-.repository-activity__tag--error {
-  background: #93000a;
-  color: #ffdad6;
+.repository-activity__time {
+  display: block;
+  margin-top: 0.25rem;
+  color: var(--ge-outline);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 @media (min-width: 768px) {
+  .repository-activity {
+    border-radius: 0.75rem;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid #1e293b;
+  }
+
+  .repository-activity__header {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0;
+    border-bottom: 1px solid var(--ge-outline-variant);
+    background: var(--ge-surface-container);
+  }
+
+  .repository-activity__title {
+    color: var(--ge-on-surface);
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+
+  .repository-activity__view-all {
+    display: inline-flex;
+  }
+
+  .repository-activity__view-all:disabled {
+    opacity: 0.45;
+  }
+
+  .repository-activity__list {
+    gap: 0;
+  }
+
+  .repository-activity__item {
+    gap: 1rem;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--ge-outline-variant);
+    transition: background-color 0.15s ease;
+  }
+
+  .repository-activity__item:last-child {
+    border-bottom: none;
+  }
+
+  .repository-activity__item:hover {
+    background: var(--ge-surface-container-low);
+  }
+
+  .repository-activity__timeline {
+    display: none;
+  }
+
+  .repository-activity__icon {
+    display: block;
+    flex-shrink: 0;
+    font-size: 1.25rem;
+  }
+
+  .repository-activity__icon--primary {
+    color: var(--ge-primary);
+  }
+
+  .repository-activity__icon--tertiary {
+    color: var(--ge-tertiary);
+  }
+
+  .repository-activity__icon--error {
+    color: #ffb4ab;
+  }
+
   .repository-activity__row {
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     gap: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .repository-activity__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--ge-on-surface-variant);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+  }
+
+  .repository-activity__mobile-text,
+  .repository-activity__mobile-meta {
+    display: none;
+  }
+
+  .repository-activity__item-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .repository-activity__time {
+    display: inline;
+    margin-top: 0;
+    color: var(--ge-on-surface-variant);
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
+  .repository-activity__tag {
+    padding: 0.125rem 0.5rem;
+    border-radius: 0.25rem;
+    background: var(--ge-surface-container-highest);
+  }
+
+  .repository-activity__tag--primary {
+    color: var(--ge-primary);
+  }
+
+  .repository-activity__tag--tertiary {
+    color: var(--ge-tertiary);
+  }
+
+  .repository-activity__tag--error {
+    background: #93000a;
+    color: #ffdad6;
   }
 }
