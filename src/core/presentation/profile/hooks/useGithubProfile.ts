@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import type { GitHubRepoSummaryDto, GitHubUserDto } from '@/core/domain/github'
 import {
   makeGetGitHubUserUseCase,
-  makeGetUserRepositoriesUseCase,
   makeSearchGitHubRepositoriesUseCase,
 } from '@/core/composition/use-cases/make-github-usecases'
 import { useDebouncedValue } from '@/shared/hooks/useDebouncedValue'
@@ -25,6 +24,7 @@ type UseGithubProfileResult = {
   sortBy: ProfileRepoSortOption
   setSortBy: (value: ProfileRepoSortOption) => void
   isLoading: boolean
+  isLoadingRepos: boolean
   isLoadingMore: boolean
   isSearching: boolean
   error: string | null
@@ -34,29 +34,6 @@ type UseGithubProfileResult = {
 
 const PAGE_SIZE = 10
 const SEARCH_DEBOUNCE_MS = 400
-
-function sortRepositories(
-  repositories: GitHubRepoSummaryDto[],
-  sortBy: ProfileRepoSortOption,
-): GitHubRepoSummaryDto[] {
-  const items = [...repositories]
-
-  items.sort((left, right) => {
-    if (sortBy === 'stars') {
-      return right.stargazersCount - left.stargazersCount
-    }
-
-    if (sortBy === 'forks') {
-      return right.forksCount - left.forksCount
-    }
-
-    const leftDate = left.pushedAt ? new Date(left.pushedAt).getTime() : 0
-    const rightDate = right.pushedAt ? new Date(right.pushedAt).getTime() : 0
-    return rightDate - leftDate
-  })
-
-  return items
-}
 
 function buildProfileSearchQuery(
   query: string,
@@ -95,6 +72,7 @@ export function useGithubProfile(): UseGithubProfileResult {
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingRepos, setIsLoadingRepos] = useState(false)
   const [isLoadingMore, setIsLoadingMore] = useState(false)
   const [isSearching, setIsSearching] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -105,7 +83,6 @@ export function useGithubProfile(): UseGithubProfileResult {
     debouncedSearch.length >= 2 ||
     typeFilter !== 'all' ||
     languageFilter !== 'all'
-  const searchSortBy = isSearchMode ? sortBy : null
 
   const availableLanguages = useMemo(() => {
     const languages = new Set<string>()
@@ -119,10 +96,6 @@ export function useGithubProfile(): UseGithubProfileResult {
     return Array.from(languages).sort((left, right) => left.localeCompare(right))
   }, [repositories])
 
-  const sortedRepositories = useMemo(() => {
-    return isSearchMode ? repositories : sortRepositories(repositories, sortBy)
-  }, [isSearchMode, repositories, sortBy])
-
   const fetchRepositories = useCallback(
     async (
       targetPage: number,
@@ -133,41 +106,23 @@ export function useGithubProfile(): UseGithubProfileResult {
         return
       }
 
-      if (isSearchMode) {
-        const searchUseCase = makeSearchGitHubRepositoriesUseCase()
-        const searchQueryText = buildProfileSearchQuery(
-          debouncedSearch,
-          typeFilter,
-          languageFilter,
-        )
+      const searchUseCase = makeSearchGitHubRepositoriesUseCase()
+      const searchQueryText = isSearchMode
+        ? buildProfileSearchQuery(debouncedSearch, typeFilter, languageFilter)
+        : ''
 
-        const result = await searchUseCase.execute({
-          query: searchQueryText || '*',
-          ownerLogin: login,
-          perPage: PAGE_SIZE,
-          page: targetPage,
-          sort,
-        })
-
-        setRepositories((current) =>
-          append ? [...current, ...result.repositories] : result.repositories,
-        )
-        setHasMore(result.repositories.length === PAGE_SIZE)
-        return
-      }
-
-      const reposUseCase = makeGetUserRepositoriesUseCase()
-      const result = await reposUseCase.execute({
-        login,
+      const result = await searchUseCase.execute({
+        query: searchQueryText,
+        ownerLogin: login,
         perPage: PAGE_SIZE,
         page: targetPage,
-        sort: 'pushed',
+        sort,
       })
 
       setRepositories((current) =>
         append ? [...current, ...result.repositories] : result.repositories,
       )
-      setHasMore(result.repositories.length === PAGE_SIZE)
+      setHasMore(targetPage * PAGE_SIZE < result.totalCount)
     },
     [debouncedSearch, isSearchMode, languageFilter, login, typeFilter],
   )
@@ -221,6 +176,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     const controller = new AbortController()
 
     const loadRepositories = async () => {
+      setIsLoadingRepos(true)
       setIsSearching(true)
       setError(null)
       setPage(1)
@@ -240,6 +196,7 @@ export function useGithubProfile(): UseGithubProfileResult {
       } finally {
         if (!controller.signal.aborted) {
           setIsSearching(false)
+          setIsLoadingRepos(false)
         }
       }
     }
@@ -253,7 +210,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     isSearchMode,
     languageFilter,
     login,
-    searchSortBy,
+    sortBy,
     typeFilter,
     user,
   ])
@@ -284,7 +241,7 @@ export function useGithubProfile(): UseGithubProfileResult {
 
   return {
     user,
-    repositories: sortedRepositories,
+    repositories,
     searchQuery,
     setSearchQuery,
     typeFilter,
@@ -295,6 +252,7 @@ export function useGithubProfile(): UseGithubProfileResult {
     sortBy,
     setSortBy,
     isLoading,
+    isLoadingRepos,
     isLoadingMore,
     isSearching,
     error,
