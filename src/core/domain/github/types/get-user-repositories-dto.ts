@@ -1,6 +1,7 @@
 import type { GitHubRepoSummaryDto } from './github-repo-summary-dto'
+import type { GithubRequestOptions } from './github-request-options'
 
-export type GetUserRepositoriesInputDto = {
+export type GetUserRepositoriesInputDto = GithubRequestOptions & {
   login: string
   perPage?: number
   page?: number

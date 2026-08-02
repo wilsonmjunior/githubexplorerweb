@@ -23,10 +23,18 @@ export function createGitHubHttpClient(): AxiosInstance {
   client.interceptors.response.use(
     (response) => response,
     (error: unknown) => {
+      if (axios.isCancel(error)) {
+        return Promise.reject(error)
+      }
+
       if (!axios.isAxiosError(error)) {
         return Promise.reject(
           new GitHubApiException('Erro inesperado ao comunicar com o GitHub.', 0),
         )
+      }
+
+      if (error.code === 'ERR_CANCELED') {
+        return Promise.reject(error)
       }
 
       const status = error.response?.status ?? 0

@@ -16,13 +16,14 @@ import type {
   SearchGitHubUsersOutputDto,
 } from '@/core/domain/github'
 import { GitHubApiException } from '@/core/domain/github/exceptions/github-api-exception'
+import { GitHubApiCache } from '@/core/infra/github/cache/github-api-cache'
 import { createGitHubHttpClient } from '@/core/infra/github/http/create-github-http-client'
 import { mapAuthenticatedGitHubUser } from '@/core/infra/github/mappers/authenticated-github-user-mapper'
 import { mapGitHubOrganization } from '@/core/infra/github/mappers/github-organization-mapper'
 import { mapRepositoryCommits } from '@/core/infra/github/mappers/repository-activity-mapper'
 import { mapGitHubRepoSummary } from '@/core/infra/github/mappers/github-repo-summary-mapper'
 import { mapGitHubRepository } from '@/core/infra/github/mappers/github-repository-mapper'
-import { mapGitHubUser } from '@/core/infra/github/mappers/github-user-mapper'
+import { mapGitHubUser, mapGitHubUserSearchItem } from '@/core/infra/github/mappers/github-user-mapper'
 import { mapRepositoryLanguages } from '@/core/infra/github/mappers/repository-language-mapper'
 import type { AxiosInstance } from 'axios'
 
@@ -78,6 +79,7 @@ function buildRepositorySearchQuery(
 
 export class GitHubApiClient implements GitHubClient {
   private readonly http: AxiosInstance
+  private readonly cache = new GitHubApiCache()
 
   constructor(httpClient?: AxiosInstance) {
     this.http = httpClient ?? createGitHubHttpClient()
@@ -94,15 +96,12 @@ export class GitHubApiClient implements GitHubClient {
           per_page: input.perPage ?? 10,
           page: input.page ?? 1,
         },
+        signal: input.signal,
       },
     )
 
-    const users = await Promise.all(
-      data.items.map((item) => this.getUser(item.login)),
-    )
-
     return {
-      users,
+      users: data.items.map(mapGitHubUserSearchItem),
       totalCount: data.total_count,
     }
   }
@@ -122,6 +121,7 @@ export class GitHubApiClient implements GitHubClient {
           per_page: input.perPage ?? 10,
           page: input.page ?? 1,
         },
+        signal: input.signal,
       },
     )
 
@@ -132,8 +132,10 @@ export class GitHubApiClient implements GitHubClient {
   }
 
   async getUser(login: string): Promise<GitHubUserDto> {
-    const { data } = await this.http.get(`/users/${login}`)
-    return mapGitHubUser(data)
+    return this.cache.getUser(login, async () => {
+      const { data } = await this.http.get(`/users/${login}`)
+      return mapGitHubUser(data)
+    })
   }
 
   async getAuthenticatedUser(): Promise<GitHubUserDto | null> {
@@ -242,12 +244,16 @@ export class GitHubApiClient implements GitHubClient {
           per_page: perPage,
           page,
         },
+        signal: input.signal,
       },
     )
 
-    const developers = await Promise.all(
-      data.items.map((item) => this.getUser(item.login)),
-    )
+    const developers = data.items.map(mapGitHubUserSearchItem)
+    const shouldHydrateFeatured = perPage <= 5 && developers.length > 0
+
+    if (shouldHydrateFeatured) {
+      developers[0] = await this.getUser(developers[0].login)
+    }
 
     return { developers, totalCount: data.total_count }
   }
@@ -261,6 +267,7 @@ export class GitHubApiClient implements GitHubClient {
         per_page: input.perPage ?? 10,
         page: input.page ?? 1,
       },
+      signal: input.signal,
     })
 
     return {
@@ -269,6 +276,16 @@ export class GitHubApiClient implements GitHubClient {
   }
 
   async getRepositoryDetails(
+    input: GetGitHubRepositoryInputDto,
+  ): Promise<GetGitHubRepositoryDetailsOutputDto> {
+    return this.cache.getRepositoryDetails(
+      input.owner,
+      input.name,
+      () => this.fetchRepositoryDetails(input),
+    )
+  }
+
+  private async fetchRepositoryDetails(
     input: GetGitHubRepositoryInputDto,
   ): Promise<GetGitHubRepositoryDetailsOutputDto> {
     const repoPath = `/repos/${input.owner}/${input.name}`

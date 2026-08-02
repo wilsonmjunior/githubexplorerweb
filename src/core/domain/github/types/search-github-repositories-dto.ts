@@ -1,6 +1,7 @@
 import type { GitHubRepoSummaryDto } from './github-repo-summary-dto'
+import type { GithubRequestOptions } from './github-request-options'
 
-export type SearchGitHubRepositoriesInputDto = {
+export type SearchGitHubRepositoriesInputDto = GithubRequestOptions & {
   query: string
   ownerLogin?: string
   perPage?: number
